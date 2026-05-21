@@ -2,6 +2,7 @@ export interface Track {
   id: string;
   name: string;
   durationSeconds: number;
+  gapSeconds?: number;
 }
 
 export interface Setlist {

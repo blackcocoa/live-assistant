@@ -26,6 +26,6 @@ export function parseDuration(str: string): number {
   return parseInt(t) || 0;
 }
 
-export function totalDurationSec(tracks: { durationSeconds: number }[]): number {
-  return tracks.reduce((sum, t) => sum + t.durationSeconds, 0);
+export function totalDurationSec(tracks: { durationSeconds: number; gapSeconds?: number }[]): number {
+  return tracks.reduce((sum, t) => sum + t.durationSeconds + (t.gapSeconds ?? 60), 0);
 }

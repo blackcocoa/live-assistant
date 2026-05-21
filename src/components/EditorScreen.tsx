@@ -11,7 +11,7 @@ interface Props {
 }
 
 function newTrack(): Track {
-  return { id: crypto.randomUUID(), name: "", durationSeconds: 0 };
+  return { id: crypto.randomUUID(), name: "", durationSeconds: 0, gapSeconds: 60 };
 }
 
 export default function EditorScreen({ initial, onDone, onCancel }: Props) {
@@ -47,7 +47,7 @@ export default function EditorScreen({ initial, onDone, onCancel }: Props) {
 
   function addTrack(preset?: TrackPreset) {
     const track = preset
-      ? { id: crypto.randomUUID(), name: preset.name, durationSeconds: preset.durationSeconds }
+      ? { id: crypto.randomUUID(), name: preset.name, durationSeconds: preset.durationSeconds, gapSeconds: 60 }
       : newTrack();
     setTracks((prev) => [...prev, track]);
     setComboQuery("");
@@ -113,6 +113,14 @@ export default function EditorScreen({ initial, onDone, onCancel }: Props) {
                     placeholder="3:30"
                     defaultValue={formatDuration(track.durationSeconds)}
                     onBlur={(e) => updateTrack(i, { durationSeconds: parseDuration(e.target.value) })}
+                  />
+                  <span className="text-[12px] text-muted">分:秒</span>
+                  <span className="text-[12px] text-muted ml-1">gap</span>
+                  <input
+                    className="bg-surface2 rounded-lg px-3 py-2 text-[15px] text-white outline-none placeholder-muted tabular-nums w-20"
+                    placeholder="1:00"
+                    defaultValue={formatDuration(track.gapSeconds ?? 60)}
+                    onBlur={(e) => updateTrack(i, { gapSeconds: parseDuration(e.target.value) })}
                   />
                   <span className="text-[12px] text-muted">分:秒</span>
                 </div>

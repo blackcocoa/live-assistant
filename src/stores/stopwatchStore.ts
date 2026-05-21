@@ -66,7 +66,7 @@ export function selectRemainingMs(state: StopwatchState): number {
   const elapsed = isRunning && startTs ? elapsedMs + (Date.now() - startTs) : elapsedMs;
   const cumulative = setlist.tracks
     .slice(0, trackIndex + 1)
-    .reduce((sum, t) => sum + t.durationSeconds * 1000, 0);
+    .reduce((sum, t, i) => sum + (t.durationSeconds + (i < trackIndex ? (t.gapSeconds ?? 60) : 0)) * 1000, 0);
   return cumulative - elapsed;
 }
 

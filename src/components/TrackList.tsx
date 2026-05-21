@@ -39,23 +39,29 @@ export default function TrackList({ onOpenPicker }: Props) {
 
       {setlist.tracks.map((track, i) => {
         const isCurrent = i === trackIndex;
+        const isLast = i === setlist.tracks.length - 1;
+        const gap = track.gapSeconds ?? 60;
         return (
-          <div
-            key={track.id}
-            ref={isCurrent ? currentRef : null}
-            className={`flex items-center px-4 py-3 gap-3 border-b border-sep ${isCurrent ? "bg-accent-muted" : ""
-              }`}
-          >
-            <div className={`w-1.5 h-1.5 rounded-full shrink-0 ${isCurrent ? "bg-accent" : "invisible"}`} />
-            <div className={`text-[13px] min-w-[22px] text-right tabular-nums ${isCurrent ? "text-accent" : "text-muted"}`}>
-              {i + 1}
+          <div key={track.id} ref={isCurrent ? currentRef : null}>
+            <div className={`flex items-center px-4 py-3 gap-3 ${isCurrent ? "bg-accent-muted" : ""}`}>
+              <div className={`w-1.5 h-1.5 rounded-full shrink-0 ${isCurrent ? "bg-accent" : "invisible"}`} />
+              <div className={`text-[13px] min-w-[22px] text-right tabular-nums ${isCurrent ? "text-accent" : "text-muted"}`}>
+                {i + 1}
+              </div>
+              <div className={`flex-1 text-[32px] pb-1 pl-2 truncate leading-[1.1] ${isCurrent ? "text-accent font-bold" : "font-medium"}`}>
+                {track.name || "(タイトルなし)"}
+              </div>
+              <div className={`text-[14px] tabular-nums shrink-0 ${isCurrent ? "text-accent" : "text-muted"}`}>
+                {formatDuration(track.durationSeconds)}
+              </div>
             </div>
-            <div className={`flex-1 text-[32px] pb-1 pl-2 truncate leading-[1.1] ${isCurrent ? "text-accent font-bold" : "font-medium"}`}>
-              {track.name || "(タイトルなし)"}
-            </div>
-            <div className={`text-[14px] tabular-nums shrink-0 ${isCurrent ? "text-accent" : "text-muted"}`}>
-              {formatDuration(track.durationSeconds)}
-            </div>
+            {!isLast && (
+              <div className="flex items-center gap-2 px-6 py-1">
+                <div className="flex-1 h-px bg-sep" />
+                <span className="text-[13px] text-muted tabular-nums">{formatDuration(gap)}</span>
+                <div className="flex-1 h-px bg-sep" />
+              </div>
+            )}
           </div>
         );
       })}

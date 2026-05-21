@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSetlistStore } from "../stores/setlistStore";
+import { useTrackPresetStore } from "../stores/trackPresetStore";
 import { formatDuration, parseDuration } from "../utils";
-import type { Setlist, Track } from "../types";
+import type { Setlist, Track, TrackPreset } from "../types";
 
 interface Props {
   initial: Setlist;
@@ -10,15 +11,30 @@ interface Props {
 }
 
 function newTrack(): Track {
-  return { id: crypto.randomUUID(), name: "", durationSeconds: 180 };
+  return { id: crypto.randomUUID(), name: "", durationSeconds: 0 };
 }
 
 export default function EditorScreen({ initial, onDone, onCancel }: Props) {
   const { save } = useSetlistStore();
+  const { save: savePreset, presets } = useTrackPresetStore();
   const [name, setName] = useState(initial.name);
   const [memo, setMemo] = useState(initial.memo);
   const [tracks, setTracks] = useState<Track[]>(
     initial.tracks.length ? initial.tracks : [newTrack()]
+  );
+  const [comboQuery, setComboQuery] = useState("");
+  const [comboOpen, setComboOpen] = useState(false);
+  const [trackMenuIndex, setTrackMenuIndex] = useState<number | null>(null);
+  const [toast, setToast] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!toast) return;
+    const id = setTimeout(() => setToast(null), 2000);
+    return () => clearTimeout(id);
+  }, [toast]);
+
+  const filteredPresets = presets.filter((p) =>
+    p.name.toLowerCase().includes(comboQuery.toLowerCase())
   );
 
   function updateTrack(index: number, patch: Partial<Track>) {
@@ -27,6 +43,15 @@ export default function EditorScreen({ initial, onDone, onCancel }: Props) {
 
   function removeTrack(index: number) {
     setTracks((prev) => prev.filter((_, i) => i !== index));
+  }
+
+  function addTrack(preset?: TrackPreset) {
+    const track = preset
+      ? { id: crypto.randomUUID(), name: preset.name, durationSeconds: preset.durationSeconds }
+      : newTrack();
+    setTracks((prev) => [...prev, track]);
+    setComboQuery("");
+    setComboOpen(false);
   }
 
   function handleSave() {
@@ -73,7 +98,7 @@ export default function EditorScreen({ initial, onDone, onCancel }: Props) {
 
         <div className="flex flex-col gap-2">
           {tracks.map((track, i) => (
-            <div key={track.id} className="bg-surface rounded-[14px] p-3 flex items-center gap-2.5">
+            <div key={track.id} className="bg-surface rounded-[14px] p-3 flex items-center gap-2.5 relative">
               <span className="text-[13px] text-muted w-5 text-center shrink-0">{i + 1}</span>
               <div className="flex-1 flex flex-col gap-1.5">
                 <input
@@ -92,18 +117,88 @@ export default function EditorScreen({ initial, onDone, onCancel }: Props) {
                   <span className="text-[12px] text-muted">分:秒</span>
                 </div>
               </div>
-              <button onClick={() => removeTrack(i)} className="text-danger text-[22px] w-9 h-9 flex items-center justify-center shrink-0">−</button>
+              <div className="flex flex-col gap-1 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => setTrackMenuIndex(trackMenuIndex === i ? null : i)}
+                  className="text-muted text-[20px] w-9 h-9 flex items-center justify-center active:opacity-60"
+                >
+                  ⋮
+                </button>
+                <button type="button" onClick={() => removeTrack(i)} className="text-danger text-[22px] w-9 h-9 flex items-center justify-center">−</button>
+              </div>
+              {trackMenuIndex === i && (
+                <div className="absolute top-2 right-12 z-50 bg-surface2 rounded-[12px] shadow-xl overflow-hidden min-w-[180px]" onClick={(e) => e.stopPropagation()}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      savePreset(track.name, track.durationSeconds);
+                      setTrackMenuIndex(null);
+                      setToast("プリセットに追加しました");
+                    }}
+                    className="w-full px-4 py-3 text-[15px] text-left active:bg-surface transition-colors"
+                  >
+                    トラックプリセットに追加
+                  </button>
+                </div>
+              )}
             </div>
           ))}
         </div>
 
-        <button
-          onClick={() => setTracks((prev) => [...prev, newTrack()])}
-          className="bg-surface rounded-[14px] py-3.5 text-accent text-[15px] font-semibold w-full active:opacity-75 transition-opacity"
-        >
-          ＋ 曲を追加
-        </button>
+        <div className="bg-surface rounded-[14px] overflow-hidden">
+          {comboOpen && (
+            <div className="border-b border-sep">
+              <button
+                type="button"
+                onMouseDown={(e) => { e.preventDefault(); addTrack(); }}
+                className="w-full flex items-center gap-3 px-4 py-3 text-left active:bg-surface2 border-b border-sep"
+              >
+                <span className="text-accent text-[15px]">＋</span>
+                <span className="text-[15px] text-muted">空のトラックを追加</span>
+              </button>
+              {filteredPresets.map((p) => (
+                <button
+                  key={p.id}
+                  type="button"
+                  onMouseDown={(e) => { e.preventDefault(); addTrack(p); }}
+                  className="w-full flex items-center justify-between px-4 py-3 text-left active:bg-surface2 border-b border-sep last:border-0"
+                >
+                  <span className="text-[15px] text-white truncate flex-1">{p.name}</span>
+                  <span className="text-[13px] text-muted ml-3 shrink-0">{formatDuration(p.durationSeconds)}</span>
+                </button>
+              ))}
+              {filteredPresets.length === 0 && comboQuery && (
+                <p className="px-4 py-3 text-[14px] text-muted">一致するプリセットなし</p>
+              )}
+            </div>
+          )}
+          <div className="flex items-center px-4 gap-3">
+            <input
+              type="text"
+              className="flex-1 bg-transparent text-white text-[15px] py-3.5 outline-none placeholder-muted"
+              placeholder="＋ 曲を検索または追加..."
+              value={comboQuery}
+              onFocus={() => setComboOpen(true)}
+              onBlur={() => setComboOpen(false)}
+              onChange={(e) => { setComboQuery(e.target.value); setComboOpen(true); }}
+              onKeyDown={(e) => { if (e.key === "Enter") addTrack(filteredPresets[0]); }}
+            />
+          </div>
+        </div>
       </div>
+
+      {trackMenuIndex !== null && (
+        <div className="fixed inset-0 z-40" onClick={() => setTrackMenuIndex(null)} />
+      )}
+
+      {toast && (
+        <div className="fixed bottom-[calc(env(safe-area-inset-bottom,0px)+24px)] left-1/2 -translate-x-1/2 z-50 pointer-events-none">
+          <div className="bg-white/10 backdrop-blur-sm text-white text-[14px] px-5 py-2.5 rounded-full">
+            {toast}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -11,4 +11,10 @@ export interface Setlist {
   tracks: Track[];
 }
 
-export type Screen = "main" | "setlists" | "editor";
+export interface TrackPreset {
+  id: string;
+  name: string;
+  durationSeconds: number;
+}
+
+export type Screen = "main" | "setlists" | "editor" | "tracks";

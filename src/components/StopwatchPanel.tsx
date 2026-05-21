@@ -9,10 +9,9 @@ import { formatTime, formatDuration, totalDurationSec } from "../utils";
 interface Props {
   onOpenSetlists: () => void;
   onOpenPicker: () => void;
-  onOpenMenu: () => void;
 }
 
-export default function StopwatchPanel({ onOpenSetlists, onOpenPicker, onOpenMenu }: Props) {
+export default function StopwatchPanel({ onOpenSetlists, onOpenPicker }: Props) {
   const store = useStopwatchStore();
   const { setlist, trackIndex, isRunning } = store;
 
@@ -38,15 +37,6 @@ export default function StopwatchPanel({ onOpenSetlists, onOpenPicker, onOpenMen
           className={`text-[16px] text-muted truncate flex-1 text-left ${setlist ? "active:opacity-60" : ""}`}
         >
           {setlist ? setlist.name || "(名称未設定)" : ""}
-        </button>
-        <button
-          type="button"
-          onClick={onOpenMenu}
-          className="ml-3 shrink-0 w-8 h-8 flex flex-col items-center justify-center gap-[5px] active:opacity-60"
-        >
-          <span className="w-5 h-[2px] bg-muted rounded-full" />
-          <span className="w-5 h-[2px] bg-muted rounded-full" />
-          <span className="w-5 h-[2px] bg-muted rounded-full" />
         </button>
       </div>
 

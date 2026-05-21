@@ -5,16 +5,15 @@ import type { TrackPreset } from "../types";
 
 interface Props {
   onBack: () => void;
+  onImport: () => void;
 }
 
-function emptyPreset(): Omit<TrackPreset, "id"> {
-  return { name: "", durationSeconds: 180 };
-}
-
-export default function TrackPresetsScreen({ onBack }: Props) {
-  const { presets, save, remove } = useTrackPresetStore();
+export default function TrackPresetsScreen({ onBack, onImport }: Props) {
+  const { presets, save, remove, clear } = useTrackPresetStore();
   const [editing, setEditing] = useState<{ id: string | null; name: string; duration: string } | null>(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
+  const [confirmClearAll, setConfirmClearAll] = useState(false);
+  const [showActionMenu, setShowActionMenu] = useState(false);
 
   function openNew() {
     setEditing({ id: null, name: "", duration: "3:00" });
@@ -39,34 +38,64 @@ export default function TrackPresetsScreen({ onBack }: Props) {
   return (
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-between bg-surface border-b border-sep px-4 pt-[calc(env(safe-area-inset-top,0px)+12px)] pb-3 shrink-0">
-        <button onClick={onBack} className="text-accent text-[17px] min-w-[60px]">‹ 戻る</button>
+        <button type="button" onClick={onBack} className="text-accent text-[17px] min-w-[60px]">‹ 戻る</button>
         <h1 className="text-[17px] font-semibold flex-1 text-center">トラックプリセット</h1>
-        <button onClick={openNew} className="text-accent text-[17px] min-w-[60px] text-right">新規</button>
+        <div className="min-w-[60px]" />
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-2.5 pb-[calc(env(safe-area-inset-bottom,0px)+16px)]">
+      <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4 pb-[calc(env(safe-area-inset-bottom,0px)+16px)]">
+        <div className="flex gap-2 mb-10">
+          <button type="button" onClick={openNew} className="flex-1 bg-surface rounded-[14px] py-3.5 text-accent text-[15px] font-semibold active:opacity-75 transition-opacity">
+            ＋ 新規
+          </button>
+          <div className="relative">
+            <button type="button" onClick={() => setShowActionMenu(true)} className="h-full px-5 bg-surface rounded-[14px] text-muted text-[22px] leading-none active:opacity-75 transition-opacity">
+              ⋮
+            </button>
+            {showActionMenu && (
+              <>
+                <div className="fixed inset-0 z-40" onClick={() => setShowActionMenu(false)} />
+                <div className="absolute top-full right-0 mt-1 bg-surface rounded-[12px] overflow-hidden shadow-xl min-w-[160px] z-50">
+                  <button
+                    type="button"
+                    onClick={() => { setShowActionMenu(false); onImport(); }}
+                    className="w-full py-3.5 text-[15px] text-left px-4 border-b border-sep active:bg-surface2 transition-colors"
+                  >
+                    JSONを読み込む
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => { setShowActionMenu(false); setConfirmClearAll(true); }}
+                    className="w-full py-3.5 text-[15px] text-left px-4 text-danger active:bg-surface2 transition-colors"
+                  >
+                    全て消去
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
         {presets.length === 0 && (
           <p className="text-muted text-center py-16 text-[15px]">
-            プリセットがありません<br />右上の「新規」から追加してください
+            プリセットがありません
           </p>
         )}
         {presets.map((p) => (
-          <div key={p.id} className="bg-surface rounded-[14px] overflow-hidden">
-            <div className="flex items-center px-4 py-3.5 gap-3">
+          <div key={p.id} className="bg-surface rounded-[14px] flex">
+            <div className="flex-1 flex items-center px-4 py-2 gap-3">
               <div className="flex-1 min-w-0">
-                <div className="text-[17px] font-semibold truncate">{p.name || "(名称未設定)"}</div>
-                <div className="text-[13px] text-muted mt-0.5">{formatDuration(p.durationSeconds)}</div>
+                <b className="text-[17px] font-semibold truncate">{p.name || "(名称未設定)"}</b>
+                <i className="not-italic text-[17px] mt-0.5 ml-2">({formatDuration(p.durationSeconds)})</i>
               </div>
             </div>
-            <div className="flex border-t border-sep">
-              <button onClick={() => openEdit(p)} className="flex-1 py-3 text-accent text-[15px] active:bg-surface2 transition-colors">
-                ✎ 編集
-              </button>
-              <div className="w-px bg-sep" />
-              <button onClick={() => setConfirmDeleteId(p.id)} className="flex-1 py-3 text-danger text-[15px] active:bg-surface2 transition-colors">
-                削除
-              </button>
-            </div>
+            <div className="w-px bg-sep" />
+            <button onClick={() => openEdit(p)} className="flex-0 w-20 py-2 text-accent text-[22px] active:bg-surface2 transition-colors">
+              ✎
+            </button>
+            <div className="w-px bg-sep" />
+            <button onClick={() => setConfirmDeleteId(p.id)} className="flex-0 w-20 py-2 text-danger text-[26px] active:bg-surface2 transition-colors">
+              ×
+            </button>
           </div>
         ))}
       </div>
@@ -103,6 +132,16 @@ export default function TrackPresetsScreen({ onBack }: Props) {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {confirmClearAll && (
+        <div className="fixed inset-0 bg-black/60 flex items-end z-50 pb-[env(safe-area-inset-bottom,0px)]" onClick={() => setConfirmClearAll(false)}>
+          <div className="bg-surface w-full rounded-t-[14px] overflow-hidden" onClick={(e) => e.stopPropagation()}>
+            <p className="text-center text-muted text-[13px] py-4 border-b border-sep">全てのプリセットを削除しますか？</p>
+            <button type="button" onClick={() => { clear(); setConfirmClearAll(false); }} className="w-full py-4 text-danger text-[17px] border-b border-sep active:bg-surface2">全て削除</button>
+            <button type="button" onClick={() => setConfirmClearAll(false)} className="w-full py-4 text-accent text-[17px] font-bold mt-2 active:bg-surface2">キャンセル</button>
           </div>
         </div>
       )}

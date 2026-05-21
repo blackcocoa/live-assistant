@@ -20,6 +20,7 @@ interface TrackPresetStore {
   save: (name: string, durationSeconds: number) => void;
   importPresets: (items: { name: string; durationSeconds: number }[]) => void;
   remove: (id: string) => void;
+  clear: () => void;
 }
 
 export const useTrackPresetStore = create<TrackPresetStore>((set, get) => ({
@@ -47,5 +48,10 @@ export const useTrackPresetStore = create<TrackPresetStore>((set, get) => ({
     const presets = get().presets.filter((p) => p.id !== id);
     persist(presets);
     set({ presets });
+  },
+
+  clear() {
+    persist([]);
+    set({ presets: [] });
   },
 }));

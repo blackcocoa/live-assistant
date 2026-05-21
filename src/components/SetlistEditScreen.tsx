@@ -14,7 +14,7 @@ function newTrack(): Track {
   return { id: crypto.randomUUID(), name: "", durationSeconds: 0, gapSeconds: 60 };
 }
 
-export default function EditorScreen({ initial, onDone, onCancel }: Props) {
+export default function SetlistEditScreen({ initial, onDone, onCancel }: Props) {
   const { save } = useSetlistStore();
   const { save: savePreset, presets } = useTrackPresetStore();
   const [name, setName] = useState(initial.name);
@@ -63,13 +63,11 @@ export default function EditorScreen({ initial, onDone, onCancel }: Props) {
   return (
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-between bg-surface border-b border-sep px-4 pt-[calc(env(safe-area-inset-top,0px)+12px)] pb-3 shrink-0">
-        <button onClick={onCancel} className="text-accent text-[17px] min-w-[60px]">キャンセル</button>
+        <div className="min-w-[60px]" />
         <h1 className="text-[17px] font-semibold flex-1 text-center">
           {initial.id ? "セットリスト編集" : "新規セットリスト"}
         </h1>
-        <button onClick={handleSave} disabled={!name.trim()} className="text-accent text-[17px] font-bold min-w-[60px] text-right disabled:text-muted">
-          保存
-        </button>
+        <div className="min-w-[60px]" />
       </div>
 
       <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4 pb-[calc(env(safe-area-inset-bottom,0px)+16px)]">
@@ -155,33 +153,7 @@ export default function EditorScreen({ initial, onDone, onCancel }: Props) {
         </div>
 
         <div className="bg-surface rounded-[14px] overflow-hidden">
-          {comboOpen && (
-            <div className="border-b border-sep">
-              <button
-                type="button"
-                onMouseDown={(e) => { e.preventDefault(); addTrack(); }}
-                className="w-full flex items-center gap-3 px-4 py-3 text-left active:bg-surface2 border-b border-sep"
-              >
-                <span className="text-accent text-[15px]">＋</span>
-                <span className="text-[15px] text-muted">空のトラックを追加</span>
-              </button>
-              {filteredPresets.map((p) => (
-                <button
-                  key={p.id}
-                  type="button"
-                  onMouseDown={(e) => { e.preventDefault(); addTrack(p); }}
-                  className="w-full flex items-center justify-between px-4 py-3 text-left active:bg-surface2 border-b border-sep last:border-0"
-                >
-                  <span className="text-[15px] text-white truncate flex-1">{p.name}</span>
-                  <span className="text-[13px] text-muted ml-3 shrink-0">{formatDuration(p.durationSeconds)}</span>
-                </button>
-              ))}
-              {filteredPresets.length === 0 && comboQuery && (
-                <p className="px-4 py-3 text-[14px] text-muted">一致するプリセットなし</p>
-              )}
-            </div>
-          )}
-          <div className="flex items-center px-4 gap-3">
+          <div className="flex items-center px-4 gap-3 border-b border-sep">
             <input
               type="text"
               className="flex-1 bg-transparent text-white text-[15px] py-3.5 outline-none placeholder-muted"
@@ -193,6 +165,43 @@ export default function EditorScreen({ initial, onDone, onCancel }: Props) {
               onKeyDown={(e) => { if (e.key === "Enter") addTrack(filteredPresets[0]); }}
             />
           </div>
+          {comboOpen && (
+            <div className="flex flex-col max-h-[280px]">
+              <button
+                type="button"
+                onMouseDown={(e) => { e.preventDefault(); addTrack(); }}
+                className="w-full flex items-center gap-1 px-4 py-3 text-left active:bg-surface2 border-b border-sep shrink-0"
+              >
+                <span className="text-accent text-[15px]">＋</span>
+                <span className="text-[15px]">空のトラックを追加</span>
+              </button>
+              <div className="overflow-y-auto">
+                {filteredPresets.map((p) => (
+                  <button
+                    key={p.id}
+                    type="button"
+                    onMouseDown={(e) => { e.preventDefault(); addTrack(p); }}
+                    className="w-full flex items-center justify-between px-4 py-3 text-left active:bg-surface2 border-b border-sep last:border-0"
+                  >
+                    <span className="text-[15px] text-white truncate flex-1">{p.name}</span>
+                    <span className="text-[13px] text-muted shrink-0">{formatDuration(p.durationSeconds)}</span>
+                  </button>
+                ))}
+                {filteredPresets.length === 0 && comboQuery && (
+                  <p className="px-4 py-3 text-[14px] text-muted">トラックが見つかりません</p>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="flex gap-2">
+          <button type="button" onClick={onCancel} className="flex-1 bg-surface rounded-[14px] py-3.5 text-muted text-[15px] active:opacity-75 transition-opacity">
+            キャンセル
+          </button>
+          <button type="button" onClick={handleSave} disabled={!name.trim()} className="flex-[2] bg-accent rounded-[14px] py-3.5 text-black text-[15px] font-bold active:opacity-75 transition-opacity disabled:bg-surface2 disabled:text-muted">
+            保存
+          </button>
         </div>
       </div>
 

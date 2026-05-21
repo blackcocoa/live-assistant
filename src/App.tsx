@@ -4,7 +4,7 @@ import TrackList from "./components/TrackList";
 import SetlistsScreen from "./components/SetlistsScreen";
 import TrackPresetsScreen from "./components/TrackPresetsScreen.tsx";
 import ImportScreen from "./components/ImportScreen.tsx";
-import EditorScreen from "./components/EditorScreen";
+import SetlistEditScreen from "./components/SetlistEditScreen.tsx";
 import SetlistPickerModal from "./components/SetlistPickerModal.tsx";
 import type { Screen, Setlist } from "./types";
 
@@ -94,7 +94,7 @@ export default function App() {
     return (
       <>
         {menu}
-        <EditorScreen
+        <SetlistEditScreen
           initial={editing}
           onDone={() => setScreen("setlists")}
           onCancel={() => setScreen("setlists")}

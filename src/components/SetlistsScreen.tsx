@@ -29,7 +29,7 @@ export default function SetlistsScreen({ onBack, onNew, onEdit }: Props) {
   return (
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-between bg-surface border-b border-sep px-4 pt-[calc(env(safe-area-inset-top,0px)+12px)] pb-3 shrink-0">
-        <button onClick={onBack} className="text-accent text-[17px] min-w-[60px]">‹ 戻る</button>
+        <button type="button" onClick={onBack} className="text-accent text-[17px] min-w-[60px]">‹ 戻る</button>
         <h1 className="text-[17px] font-semibold flex-1 text-center">セットリスト</h1>
         <div className="min-w-[60px]" />
       </div>

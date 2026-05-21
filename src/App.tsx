@@ -3,6 +3,7 @@ import StopwatchPanel from "./components/StopwatchPanel";
 import TrackList from "./components/TrackList";
 import SetlistsScreen from "./components/SetlistsScreen";
 import TrackPresetsScreen from "./components/TrackPresetsScreen.tsx";
+import ImportScreen from "./components/ImportScreen.tsx";
 import EditorScreen from "./components/EditorScreen";
 import SetlistPickerModal from "./components/SetlistPickerModal.tsx";
 import type { Screen, Setlist } from "./types";
@@ -24,6 +25,10 @@ export default function App() {
 
   if (screen === "tracks") {
     return <TrackPresetsScreen onBack={() => setScreen("main")} />;
+  }
+
+  if (screen === "import") {
+    return <ImportScreen onBack={() => setScreen("main")} />;
   }
 
   if (screen === "setlists") {
@@ -76,9 +81,16 @@ export default function App() {
             <button
               type="button"
               onClick={() => { setShowMenu(false); setScreen("tracks"); }}
-              className="w-full py-3.5 text-[16px] text-left px-4 active:bg-surface2 transition-colors"
+              className="w-full py-3.5 text-[16px] text-left px-4 border-b border-sep active:bg-surface2 transition-colors"
             >
               トラック
+            </button>
+            <button
+              type="button"
+              onClick={() => { setShowMenu(false); setScreen("import"); }}
+              className="w-full py-3.5 text-[16px] text-left px-4 active:bg-surface2 transition-colors"
+            >
+              インポート
             </button>
           </div>
         </div>

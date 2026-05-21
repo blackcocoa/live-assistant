@@ -18,6 +18,7 @@ function persist(presets: TrackPreset[]): void {
 interface TrackPresetStore {
   presets: TrackPreset[];
   save: (name: string, durationSeconds: number) => void;
+  importPresets: (items: { name: string; durationSeconds: number }[]) => void;
   remove: (id: string) => void;
 }
 
@@ -27,6 +28,17 @@ export const useTrackPresetStore = create<TrackPresetStore>((set, get) => ({
   save(name, durationSeconds) {
     const preset: TrackPreset = { id: crypto.randomUUID(), name, durationSeconds };
     const presets = [...get().presets, preset];
+    persist(presets);
+    set({ presets });
+  },
+
+  importPresets(items) {
+    const added = items.map((item) => ({
+      id: crypto.randomUUID(),
+      name: item.name,
+      durationSeconds: item.durationSeconds,
+    }));
+    const presets = [...get().presets, ...added];
     persist(presets);
     set({ presets });
   },

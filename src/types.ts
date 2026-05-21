@@ -17,4 +17,4 @@ export interface TrackPreset {
   durationSeconds: number;
 }
 
-export type Screen = "main" | "setlists" | "editor" | "tracks";
+export type Screen = "main" | "setlists" | "editor" | "tracks" | "import";

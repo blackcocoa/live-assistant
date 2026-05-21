@@ -1,137 +1,17 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Live Asst">
-  <meta name="theme-color" content="#0d0d0d">
-  <title>Live Assistant</title>
-  <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-<div id="app">
-
-  <!-- ===== MAIN SCREEN ===== -->
-  <div id="screen-main" class="screen active">
-
-    <!-- Stopwatch panel -->
-    <div class="stopwatch-panel">
-      <div class="sw-header">
-        <div id="sw-setlist-name" class="sw-setlist-name">セットリスト未選択</div>
-        <button id="btn-open-setlists" class="sw-menu-btn">セットリスト ›</button>
-      </div>
-
-      <div class="sw-track">
-        <div id="sw-track-number" class="sw-track-number"></div>
-        <div id="sw-track-name" class="sw-track-name placeholder">セットリストを選択してください</div>
-      </div>
-
-      <div class="sw-times">
-        <div class="sw-time-block">
-          <div class="sw-time-label">経過</div>
-          <div id="sw-elapsed" class="sw-elapsed-value">00:00</div>
-        </div>
-        <div class="sw-time-block">
-          <div class="sw-time-label">残り</div>
-          <div id="sw-remaining" class="sw-remaining-value">--:--</div>
-        </div>
-      </div>
-
-      <div class="sw-controls">
-        <button id="btn-start-pause" class="btn-primary" disabled>▶ スタート</button>
-        <button id="btn-lap" class="btn-secondary" disabled>⏭ 次へ</button>
-        <button id="btn-reset" class="btn-secondary">↺</button>
-      </div>
-    </div>
-
-    <!-- Track list panel -->
-    <div class="tracklist-panel">
-      <div class="tracklist-header">
-        <span class="tracklist-title">セットリスト</span>
-        <span id="tracklist-total" class="tracklist-total"></span>
-      </div>
-
-      <div id="tracklist-empty" class="empty-state" style="display:flex">
-        <div class="empty-state-icon">♪</div>
-        <div class="empty-state-text">セットリストを選択すると<br>ここに曲目が表示されます</div>
-        <button class="btn-select-setlist" id="btn-open-setlists-2">セットリストを選ぶ</button>
-      </div>
-
-      <div id="track-list"></div>
-
-      <div id="memo-section" class="memo-section" style="display:none">
-        <div class="memo-label">メモ</div>
-        <div id="memo-text" class="memo-text"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== SETLIST LIST SCREEN ===== -->
-  <div id="screen-setlists" class="screen">
-    <div class="nav-header">
-      <button id="btn-back-from-setlists" class="nav-btn left">‹ 戻る</button>
-      <h1>セットリスト</h1>
-      <button id="btn-new-setlist" class="nav-btn right">新規</button>
-    </div>
-    <div class="list-container" id="setlist-list"></div>
-  </div>
-
-  <!-- ===== EDITOR SCREEN ===== -->
-  <div id="screen-editor" class="screen">
-    <div class="nav-header">
-      <button id="btn-cancel-edit" class="nav-btn left">キャンセル</button>
-      <h1>セットリスト編集</h1>
-      <button id="btn-save-edit" class="nav-btn right" disabled>保存</button>
-    </div>
-    <div class="editor-scroll">
-
-      <div class="form-section">
-        <div class="form-row">
-          <label class="form-label" for="editor-name">名前</label>
-          <input id="editor-name" class="form-input" type="text" placeholder="セットリスト名">
-        </div>
-        <div class="form-row" style="align-items:flex-start">
-          <label class="form-label" for="editor-memo" style="padding-top:12px">メモ</label>
-          <textarea id="editor-memo" class="form-textarea" placeholder="ライブのメモ（任意）"></textarea>
-        </div>
-      </div>
-
-      <div class="section-label">曲目</div>
-
-      <div id="editor-tracks" style="display:flex;flex-direction:column;gap:8px"></div>
-
-      <button id="btn-add-track" class="btn-add-track">＋ 曲を追加</button>
-
-    </div>
-  </div>
-
-  <!-- ===== DELETE CONFIRM MODAL ===== -->
-  <div id="modal-overlay" class="modal-overlay hidden">
-    <div class="modal-sheet">
-      <div class="modal-title">このセットリストを削除しますか？</div>
-      <button id="modal-confirm-delete" class="modal-btn danger">削除</button>
-      <button id="modal-cancel" class="modal-btn cancel">キャンセル</button>
-    </div>
-  </div>
-
-</div>
-
-<script src="js/data.js"></script>
-<script src="js/stopwatch.js"></script>
-<script src="js/app.js"></script>
-<script>
-  // Second "select setlist" button in empty state
-  document.getElementById('btn-open-setlists-2').addEventListener('click', () => {
-    if (typeof openSetlistsScreen === 'function') openSetlistsScreen()
-  })
-
-  // Service Worker registration
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js')
-  }
-</script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Live Asst" />
+    <meta name="theme-color" content="#0d0d0d" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <title>Live Assistant</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>

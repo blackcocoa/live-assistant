@@ -31,13 +31,20 @@ export default function SetlistsScreen({ onBack, onNew, onEdit }: Props) {
       <div className="flex items-center justify-between bg-surface border-b border-sep px-4 pt-[calc(env(safe-area-inset-top,0px)+12px)] pb-3 shrink-0">
         <button onClick={onBack} className="text-accent text-[17px] min-w-[60px]">‹ 戻る</button>
         <h1 className="text-[17px] font-semibold flex-1 text-center">セットリスト</h1>
-        <button onClick={onNew} className="text-accent text-[17px] min-w-[60px] text-right">新規</button>
+        <div className="min-w-[60px]" />
       </div>
 
       <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-2.5 pb-[calc(env(safe-area-inset-bottom,0px)+16px)]">
+        <button
+          type="button"
+          onClick={onNew}
+          className="w-full bg-surface rounded-[14px] py-3.5 mb-10 text-accent text-[15px] font-semibold active:opacity-75 transition-opacity"
+        >
+          ＋ 新規
+        </button>
         {setlists.length === 0 && (
           <p className="text-muted text-center py-16 text-[15px]">
-            セットリストがありません<br />右上の「新規」から作成してください
+            セットリストがありません
           </p>
         )}
         {setlists.map((s) => (

@@ -1,5 +1,6 @@
 const CACHE = "live-assistant-v1";
-const ASSETS = ["/", "/index.html", "/manifest.webmanifest"];
+const BASE = self.registration.scope;
+const ASSETS = [BASE, BASE + "index.html", BASE + "manifest.webmanifest"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS)));

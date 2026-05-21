@@ -152,48 +152,13 @@ export default function SetlistEditScreen({ initial, onDone, onCancel }: Props) 
           ))}
         </div>
 
-        <div className="bg-surface rounded-[14px] overflow-hidden">
-          <div className="flex items-center px-4 gap-3 border-b border-sep">
-            <input
-              type="text"
-              className="flex-1 bg-transparent text-white text-[15px] py-3.5 outline-none placeholder-muted"
-              placeholder="＋ 曲を検索または追加..."
-              value={comboQuery}
-              onFocus={() => setComboOpen(true)}
-              onBlur={() => setComboOpen(false)}
-              onChange={(e) => { setComboQuery(e.target.value); setComboOpen(true); }}
-              onKeyDown={(e) => { if (e.key === "Enter") addTrack(filteredPresets[0]); }}
-            />
-          </div>
-          {comboOpen && (
-            <div className="flex flex-col max-h-[280px]">
-              <button
-                type="button"
-                onMouseDown={(e) => { e.preventDefault(); addTrack(); }}
-                className="w-full flex items-center gap-1 px-4 py-3 text-left active:bg-surface2 border-b border-sep shrink-0"
-              >
-                <span className="text-accent text-[15px]">＋</span>
-                <span className="text-[15px]">空のトラックを追加</span>
-              </button>
-              <div className="overflow-y-auto">
-                {filteredPresets.map((p) => (
-                  <button
-                    key={p.id}
-                    type="button"
-                    onMouseDown={(e) => { e.preventDefault(); addTrack(p); }}
-                    className="w-full flex items-center justify-between px-4 py-3 text-left active:bg-surface2 border-b border-sep last:border-0"
-                  >
-                    <span className="text-[15px] text-white truncate flex-1">{p.name}</span>
-                    <span className="text-[13px] text-muted shrink-0">{formatDuration(p.durationSeconds)}</span>
-                  </button>
-                ))}
-                {filteredPresets.length === 0 && comboQuery && (
-                  <p className="px-4 py-3 text-[14px] text-muted">トラックが見つかりません</p>
-                )}
-              </div>
-            </div>
-          )}
-        </div>
+        <button
+          type="button"
+          onClick={() => { setComboQuery(""); setComboOpen(true); }}
+          className="w-full bg-surface rounded-[14px] py-3.5 text-accent text-[15px] font-semibold active:opacity-75 transition-opacity"
+        >
+          ＋ 曲を検索または追加
+        </button>
 
         <div className="flex gap-2">
           <button type="button" onClick={onCancel} className="flex-1 bg-surface rounded-[14px] py-3.5 text-muted text-[15px] active:opacity-75 transition-opacity">
@@ -207,6 +172,51 @@ export default function SetlistEditScreen({ initial, onDone, onCancel }: Props) 
 
       {trackMenuIndex !== null && (
         <div className="fixed inset-0 z-40" onClick={() => setTrackMenuIndex(null)} />
+      )}
+
+      {comboOpen && (
+        <div className="fixed inset-0 bg-black/60 flex items-end z-50 pb-[env(safe-area-inset-bottom,0px)]" onClick={() => setComboOpen(false)}>
+          <div className="bg-surface w-full rounded-t-[20px] overflow-hidden flex flex-col max-h-[70vh]" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center px-4 gap-3 border-b border-sep shrink-0">
+              <input
+                type="text"
+                autoFocus
+                className="flex-1 bg-transparent text-white text-[15px] py-4 outline-none placeholder-muted"
+                placeholder="曲を検索..."
+                value={comboQuery}
+                onChange={(e) => setComboQuery(e.target.value)}
+                onKeyDown={(e) => { if (e.key === "Enter") addTrack(filteredPresets[0]); }}
+              />
+            </div>
+            <div className="overflow-y-auto">
+              <button
+                type="button"
+                onClick={() => addTrack()}
+                className="w-full flex items-center gap-3 px-4 py-3.5 text-left active:bg-surface2 border-b border-sep"
+              >
+                <span className="text-accent text-[15px]">＋</span>
+                <span className="text-[15px] text-muted">空のトラックを追加</span>
+              </button>
+              {filteredPresets.map((p) => (
+                <button
+                  key={p.id}
+                  type="button"
+                  onClick={() => addTrack(p)}
+                  className="w-full flex items-center justify-between px-4 py-3.5 text-left active:bg-surface2 border-b border-sep last:border-0"
+                >
+                  <span className="text-[15px] text-white truncate flex-1">{p.name}</span>
+                  <span className="text-[13px] text-muted ml-3 shrink-0">{formatDuration(p.durationSeconds)}</span>
+                </button>
+              ))}
+              {filteredPresets.length === 0 && comboQuery && (
+                <p className="px-4 py-3.5 text-[14px] text-muted">一致するプリセットなし</p>
+              )}
+            </div>
+            <button type="button" onClick={() => setComboOpen(false)} className="shrink-0 w-full py-4 text-muted text-[15px] border-t border-sep active:bg-surface2">
+              キャンセル
+            </button>
+          </div>
+        </div>
       )}
 
       {toast && (

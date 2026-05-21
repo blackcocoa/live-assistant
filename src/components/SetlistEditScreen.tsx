@@ -175,9 +175,13 @@ export default function SetlistEditScreen({ initial, onDone, onCancel }: Props) 
       )}
 
       {comboOpen && (
-        <div className="fixed inset-0 bg-black/60 flex items-end z-50 pb-[env(safe-area-inset-bottom,0px)]" onClick={() => setComboOpen(false)}>
-          <div className="bg-surface w-full rounded-t-[20px] overflow-hidden flex flex-col max-h-[70vh]" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center px-4 gap-3 border-b border-sep shrink-0">
+        <div className="fixed inset-0 z-50" onClick={() => setComboOpen(false)}>
+          <div
+            className="absolute inset-x-0 top-0 bg-surface flex flex-col"
+            style={{ height: "100dvh" }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center px-4 gap-3 border-b border-sep shrink-0 pt-[env(safe-area-inset-top,0px)]">
               <input
                 type="text"
                 autoFocus
@@ -187,8 +191,11 @@ export default function SetlistEditScreen({ initial, onDone, onCancel }: Props) 
                 onChange={(e) => setComboQuery(e.target.value)}
                 onKeyDown={(e) => { if (e.key === "Enter") addTrack(filteredPresets[0]); }}
               />
+              <button type="button" onClick={() => setComboOpen(false)} className="text-accent text-[15px] shrink-0">
+                キャンセル
+              </button>
             </div>
-            <div className="overflow-y-auto">
+            <div className="flex-1 overflow-y-auto min-h-0">
               <button
                 type="button"
                 onClick={() => addTrack()}
@@ -212,9 +219,6 @@ export default function SetlistEditScreen({ initial, onDone, onCancel }: Props) 
                 <p className="px-4 py-3.5 text-[14px] text-muted">一致するプリセットなし</p>
               )}
             </div>
-            <button type="button" onClick={() => setComboOpen(false)} className="shrink-0 w-full py-4 text-muted text-[15px] border-t border-sep active:bg-surface2">
-              キャンセル
-            </button>
           </div>
         </div>
       )}

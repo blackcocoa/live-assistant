@@ -49,13 +49,13 @@ export default function StopwatchPanel({ onOpenSetlists, onOpenPicker }: Props) 
               <div className="text-[12px] text-muted">
                 {track ? `Track ${trackIndex + 1} / ${setlist!.tracks.length}` : ""}
               </div>
-              <div className="text-[36px] leading-[1.1] font-bold truncate text-white -mt-[5px]">
+              <div className="text-[32px] leading-[1.1] font-bold truncate text-white -mt-[5px]">
                 {track.name || "(タイトルなし)"}
               </div>
             </div>
             <div className="shrink-0 text-right">
               <div className="text-[10px] text-muted uppercase tracking-wider">Total</div>
-              <span className="text-[36px] font-light tabular-nums text-muted leading-[1.1]">
+              <span className="text-[28px] font-light tabular-nums text-muted leading-[1.1]">
                 {setTimeSec !== null ? formatDuration(setTimeSec) : ""}
               </span>
             </div>
@@ -74,13 +74,13 @@ export default function StopwatchPanel({ onOpenSetlists, onOpenPicker }: Props) 
       <div className="flex gap-5 mb-6 items-end">
         <div>
           <div className="text-[11px] text-muted uppercase tracking-wider ">経過</div>
-          <div className="text-[48px] leading-[1.1] font-extralight tabular-nums">
+          <div className="text-[62px] leading-[1.1] font-extralight tabular-nums">
             {formatTime(totalElapsed)}
           </div>
         </div>
         <div>
           <div className="text-[11px] text-muted uppercase tracking-wider ">残り</div>
-          <div className={`text-[48px] leading-[1.1] font-bold tabular-nums ${remaining < 0 ? "text-danger" : "text-accent"
+          <div className={`text-[62px] leading-[1.1] font-bold tabular-nums ${remaining < 0 ? "text-danger" : "text-accent"
             }`}>
             {setlist ? formatTime(remaining) : "--:--"}
           </div>
@@ -98,7 +98,7 @@ export default function StopwatchPanel({ onOpenSetlists, onOpenPicker }: Props) 
               : "flex-[2] bg-accent text-black disabled:bg-surface2 disabled:text-muted"
             }`}
         >
-          {isRunning ? "⏸ 一時停止" : totalElapsed > 0 ? "▶ 再開" : "▶ スタート"}
+          {isRunning ? "⏸︎ 一時停止" : totalElapsed > 0 ? "▶︎ 再開" : "▶︎ スタート"}
         </button>
         <button
           onClick={store.lap}
@@ -109,7 +109,7 @@ export default function StopwatchPanel({ onOpenSetlists, onOpenPicker }: Props) 
               : "flex-1 bg-surface2 text-white disabled:text-muted"
             }`}
         >
-          ⏭ 次へ
+          ⏭︎ 次へ
         </button>
         <button
           onClick={store.reset}

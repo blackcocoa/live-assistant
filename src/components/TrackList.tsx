@@ -19,9 +19,8 @@ export default function TrackList({ onOpenPicker }: Props) {
     const elBottom = elTop + el.offsetHeight;
     const viewTop = container.scrollTop;
     const viewBottom = viewTop + container.clientHeight;
-    if (elTop < viewTop || elBottom > viewBottom) {
-      container.scrollTo({ top: elTop - container.clientHeight * 0.4, behavior: "smooth" });
-    }
+    const stopwatchHeight = (container.parentElement?.previousElementSibling as HTMLElement | null)?.clientHeight ?? 0;
+    container.scrollTo({ top: elTop - (stopwatchHeight + 128), behavior: "smooth" });
   }, [trackIndex]);
 
   if (!setlist) {

@@ -20,7 +20,7 @@ export default function TrackList({ onOpenPicker }: Props) {
     const viewTop = container.scrollTop;
     const viewBottom = viewTop + container.clientHeight;
     if (elTop < viewTop || elBottom > viewBottom) {
-      container.scrollTo({ top: elTop - container.clientHeight / 3, behavior: "smooth" });
+      container.scrollTo({ top: elTop - container.clientHeight * 0.65, behavior: "smooth" });
     }
   }, [trackIndex]);
 

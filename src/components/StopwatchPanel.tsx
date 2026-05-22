@@ -74,13 +74,13 @@ export default function StopwatchPanel({ onOpenSetlists, onOpenPicker }: Props) 
       <div className="flex gap-5 mb-6 items-end">
         <div>
           <div className="text-[11px] text-muted uppercase tracking-wider ">経過</div>
-          <div className="text-[62px] leading-[1.1] font-extralight tabular-nums">
+          <div className="text-[60px] leading-[1.1] font-extralight tabular-nums">
             {formatTime(totalElapsed)}
           </div>
         </div>
         <div>
           <div className="text-[11px] text-muted uppercase tracking-wider ">残り</div>
-          <div className={`text-[62px] leading-[1.1] font-bold tabular-nums ${remaining < 0 ? "text-danger" : "text-accent"
+          <div className={`text-[60px] leading-[1.1] font-bold tabular-nums ${remaining < 0 ? "text-danger" : "text-accent"
             }`}>
             {setlist ? formatTime(remaining) : "--:--"}
           </div>

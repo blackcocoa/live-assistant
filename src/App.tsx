@@ -111,7 +111,7 @@ export default function App() {
           onOpenSetlists={() => setScreen("setlists")}
           onOpenPicker={() => setShowPicker(true)}
         />
-        <div className="flex-1 overflow-y-auto pb-[env(safe-area-inset-bottom,0px)]">
+        <div className="flex-1 min-h-0 pb-[env(safe-area-inset-bottom,0px)]">
           <TrackList onOpenPicker={() => setShowPicker(true)} />
         </div>
         {showPicker && (

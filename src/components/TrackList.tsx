@@ -8,15 +8,25 @@ interface Props {
 
 export default function TrackList({ onOpenPicker }: Props) {
   const { setlist, trackIndex } = useStopwatchStore();
+  const containerRef = useRef<HTMLDivElement>(null);
   const currentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    currentRef.current?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    const container = containerRef.current;
+    const el = currentRef.current;
+    if (!container || !el) return;
+    const elTop = el.offsetTop;
+    const elBottom = elTop + el.offsetHeight;
+    const viewTop = container.scrollTop;
+    const viewBottom = viewTop + container.clientHeight;
+    if (elTop < viewTop || elBottom > viewBottom) {
+      container.scrollTo({ top: elTop - container.clientHeight / 3, behavior: "smooth" });
+    }
   }, [trackIndex]);
 
   if (!setlist) {
     return (
-      <div className="flex flex-col items-center justify-center py-16 gap-3 text-muted">
+      <div className="h-full flex flex-col items-center justify-center py-16 gap-3 text-muted">
         <div className="text-5xl opacity-40">♪</div>
         <button
           type="button"
@@ -30,7 +40,7 @@ export default function TrackList({ onOpenPicker }: Props) {
   }
 
   return (
-    <div>
+    <div ref={containerRef} className="h-full overflow-y-auto">
       <div className="flex justify-between items-center px-4 py-3 sticky top-0 bg-bg z-10">
         <span className="text-[13px] text-muted">
           Total {formatDuration(totalDurationSec(setlist.tracks))}

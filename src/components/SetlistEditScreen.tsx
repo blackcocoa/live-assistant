@@ -1,4 +1,20 @@
 import { useState, useEffect } from "react";
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import type { DragEndEvent } from "@dnd-kit/core";
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+  useSortable,
+  arrayMove,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { useSetlistStore } from "../stores/setlistStore";
 import { useTrackPresetStore } from "../stores/trackPresetStore";
 import { formatDuration, parseDuration } from "../utils";
@@ -14,6 +30,89 @@ function newTrack(): Track {
   return { id: crypto.randomUUID(), name: "", durationSeconds: 0, gapSeconds: 60 };
 }
 
+interface CardProps {
+  track: Track;
+  index: number;
+  menuOpen: boolean;
+  onUpdate: (patch: Partial<Track>) => void;
+  onRemove: () => void;
+  onMenuToggle: () => void;
+  onSavePreset: () => void;
+}
+
+function SortableTrackCard({ track, index, menuOpen, onUpdate, onRemove, onMenuToggle, onSavePreset }: CardProps) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: track.id });
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={{ transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.4 : 1 }}
+      className="bg-surface rounded-[14px] p-3 flex items-center gap-2.5 relative"
+      {...attributes}
+    >
+      <div
+        {...listeners}
+        className="text-muted text-[20px] w-5 flex items-center justify-center shrink-0 touch-none cursor-grab"
+      >
+        ≡
+      </div>
+      <span className="text-[13px] text-muted w-5 text-center shrink-0">{index + 1}</span>
+      <div className="flex-1 flex flex-col gap-1.5">
+        <input
+          className="w-full bg-surface2 rounded-lg px-3 py-2 text-[15px] text-white outline-none placeholder-muted"
+          placeholder="曲名"
+          value={track.name}
+          onChange={(e) => onUpdate({ name: e.target.value })}
+        />
+        <input
+          className="w-full bg-surface2 rounded-lg px-3 py-2 text-[13px] text-white outline-none placeholder-muted"
+          placeholder="メモ（任意）"
+          value={track.memo ?? ""}
+          onChange={(e) => onUpdate({ memo: e.target.value })}
+        />
+        <div className="flex items-center gap-2">
+          <input
+            className="bg-surface2 rounded-lg px-3 py-2 text-[15px] text-white outline-none placeholder-muted tabular-nums w-24"
+            placeholder="3:30"
+            defaultValue={formatDuration(track.durationSeconds)}
+            onBlur={(e) => onUpdate({ durationSeconds: parseDuration(e.target.value) })}
+          />
+          <span className="text-[12px] text-muted">分:秒</span>
+          <span className="text-[12px] text-muted ml-1">gap</span>
+          <input
+            className="bg-surface2 rounded-lg px-3 py-2 text-[15px] text-white outline-none placeholder-muted tabular-nums w-20"
+            placeholder="1:00"
+            defaultValue={formatDuration(track.gapSeconds ?? 60)}
+            onBlur={(e) => onUpdate({ gapSeconds: parseDuration(e.target.value) })}
+          />
+          <span className="text-[12px] text-muted">分:秒</span>
+        </div>
+      </div>
+      <div className="flex flex-col gap-1 shrink-0">
+        <button
+          type="button"
+          onClick={onMenuToggle}
+          className="text-muted text-[20px] w-9 h-9 flex items-center justify-center active:opacity-60"
+        >
+          ⋮
+        </button>
+        <button type="button" onClick={onRemove} className="text-danger text-[22px] w-9 h-9 flex items-center justify-center">−</button>
+      </div>
+      {menuOpen && (
+        <div className="absolute top-2 right-12 z-50 bg-surface2 rounded-[12px] shadow-xl overflow-hidden min-w-[180px]" onClick={(e) => e.stopPropagation()}>
+          <button
+            type="button"
+            onClick={onSavePreset}
+            className="w-full px-4 py-3 text-[15px] text-left active:bg-surface transition-colors"
+          >
+            トラックプリセットに追加
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function SetlistEditScreen({ initial, onDone, onCancel }: Props) {
   const { save } = useSetlistStore();
   const { save: savePreset, presets } = useTrackPresetStore();
@@ -26,6 +125,11 @@ export default function SetlistEditScreen({ initial, onDone, onCancel }: Props) 
   const [comboOpen, setComboOpen] = useState(false);
   const [trackMenuIndex, setTrackMenuIndex] = useState<number | null>(null);
   const [toast, setToast] = useState<string | null>(null);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 5 } }),
+  );
 
   useEffect(() => {
     if (!toast) return;
@@ -52,6 +156,14 @@ export default function SetlistEditScreen({ initial, onDone, onCancel }: Props) 
     setTracks((prev) => [...prev, track]);
     setComboQuery("");
     setComboOpen(false);
+  }
+
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+    const oldIndex = tracks.findIndex((t) => t.id === active.id);
+    const newIndex = tracks.findIndex((t) => t.id === over.id);
+    setTracks((prev) => arrayMove(prev, oldIndex, newIndex));
   }
 
   function handleSave() {
@@ -94,69 +206,28 @@ export default function SetlistEditScreen({ initial, onDone, onCancel }: Props) 
 
         <div className="text-[13px] font-semibold text-muted uppercase tracking-wider px-1">曲目</div>
 
-        <div className="flex flex-col gap-2">
-          {tracks.map((track, i) => (
-            <div key={track.id} className="bg-surface rounded-[14px] p-3 flex items-center gap-2.5 relative">
-              <span className="text-[13px] text-muted w-5 text-center shrink-0">{i + 1}</span>
-              <div className="flex-1 flex flex-col gap-1.5">
-                <input
-                  className="w-full bg-surface2 rounded-lg px-3 py-2 text-[15px] text-white outline-none placeholder-muted"
-                  placeholder="曲名"
-                  value={track.name}
-                  onChange={(e) => updateTrack(i, { name: e.target.value })}
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+          <SortableContext items={tracks.map((t) => t.id)} strategy={verticalListSortingStrategy}>
+            <div className="flex flex-col gap-2">
+              {tracks.map((track, i) => (
+                <SortableTrackCard
+                  key={track.id}
+                  track={track}
+                  index={i}
+                  menuOpen={trackMenuIndex === i}
+                  onUpdate={(patch) => updateTrack(i, patch)}
+                  onRemove={() => removeTrack(i)}
+                  onMenuToggle={() => setTrackMenuIndex(trackMenuIndex === i ? null : i)}
+                  onSavePreset={() => {
+                    savePreset(track.name, track.durationSeconds);
+                    setTrackMenuIndex(null);
+                    setToast("プリセットに追加しました");
+                  }}
                 />
-                <input
-                  className="w-full bg-surface2 rounded-lg px-3 py-2 text-[13px] text-white outline-none placeholder-muted"
-                  placeholder="メモ（任意）"
-                  value={track.memo ?? ""}
-                  onChange={(e) => updateTrack(i, { memo: e.target.value })}
-                />
-                <div className="flex items-center gap-2">
-                  <input
-                    className="bg-surface2 rounded-lg px-3 py-2 text-[15px] text-white outline-none placeholder-muted tabular-nums w-24"
-                    placeholder="3:30"
-                    defaultValue={formatDuration(track.durationSeconds)}
-                    onBlur={(e) => updateTrack(i, { durationSeconds: parseDuration(e.target.value) })}
-                  />
-                  <span className="text-[12px] text-muted">分:秒</span>
-                  <span className="text-[12px] text-muted ml-1">gap</span>
-                  <input
-                    className="bg-surface2 rounded-lg px-3 py-2 text-[15px] text-white outline-none placeholder-muted tabular-nums w-20"
-                    placeholder="1:00"
-                    defaultValue={formatDuration(track.gapSeconds ?? 60)}
-                    onBlur={(e) => updateTrack(i, { gapSeconds: parseDuration(e.target.value) })}
-                  />
-                  <span className="text-[12px] text-muted">分:秒</span>
-                </div>
-              </div>
-              <div className="flex flex-col gap-1 shrink-0">
-                <button
-                  type="button"
-                  onClick={() => setTrackMenuIndex(trackMenuIndex === i ? null : i)}
-                  className="text-muted text-[20px] w-9 h-9 flex items-center justify-center active:opacity-60"
-                >
-                  ⋮
-                </button>
-                <button type="button" onClick={() => removeTrack(i)} className="text-danger text-[22px] w-9 h-9 flex items-center justify-center">−</button>
-              </div>
-              {trackMenuIndex === i && (
-                <div className="absolute top-2 right-12 z-50 bg-surface2 rounded-[12px] shadow-xl overflow-hidden min-w-[180px]" onClick={(e) => e.stopPropagation()}>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      savePreset(track.name, track.durationSeconds);
-                      setTrackMenuIndex(null);
-                      setToast("プリセットに追加しました");
-                    }}
-                    className="w-full px-4 py-3 text-[15px] text-left active:bg-surface transition-colors"
-                  >
-                    トラックプリセットに追加
-                  </button>
-                </div>
-              )}
+              ))}
             </div>
-          ))}
-        </div>
+          </SortableContext>
+        </DndContext>
 
         <button
           type="button"

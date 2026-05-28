@@ -57,8 +57,13 @@ export default function TrackList({ onOpenPicker }: Props) {
               <div className={`text-[13px] min-w-[22px] text-right tabular-nums ${isCurrent ? "text-accent" : "text-muted"}`}>
                 {i + 1}
               </div>
-              <div className={`flex-1 text-[32px] pb-1 pl-2 truncate leading-[1.1] ${isCurrent ? "text-accent font-bold" : "font-medium"}`}>
-                {track.name || "(タイトルなし)"}
+              <div className="flex-1 flex flex-col min-w-0 pl-2">
+                <div className={`text-[32px] pb-1 truncate leading-[1.1] ${isCurrent ? "text-accent font-bold" : "font-medium"}`}>
+                  {track.name || "(タイトルなし)"}
+                </div>
+                {track.memo?.trim() && (
+                  <div className="text-[12px] text-muted leading-snug -mt-1 truncate">{track.memo}</div>
+                )}
               </div>
               <div className={`text-[14px] tabular-nums shrink-0 ${isCurrent ? "text-accent" : "text-muted"}`}>
                 {formatDuration(track.durationSeconds)}

@@ -45,13 +45,16 @@ export default function StopwatchPanel({ onOpenSetlists, onOpenPicker }: Props) 
 
         {track ? (
           <div className="flex gap-3">
-            <div className="flex-1">
+            <div className="flex-1 min-w-0">
               <div className="text-[12px] text-muted">
                 {track ? `Track ${trackIndex + 1} / ${setlist!.tracks.length}` : ""}
               </div>
               <div className="text-[32px] leading-[1.1] font-bold truncate text-white -mt-[5px]">
                 {track.name || "(タイトルなし)"}
               </div>
+              {track.memo?.trim() && (
+                <div className="text-[14px] text-muted leading-snug mt-1 line-clamp-2">{track.memo}</div>
+              )}
             </div>
             <div className="shrink-0 text-right">
               <div className="text-[10px] text-muted uppercase tracking-wider">Total</div>

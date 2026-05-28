@@ -105,6 +105,12 @@ export default function SetlistEditScreen({ initial, onDone, onCancel }: Props) 
                   value={track.name}
                   onChange={(e) => updateTrack(i, { name: e.target.value })}
                 />
+                <input
+                  className="w-full bg-surface2 rounded-lg px-3 py-2 text-[13px] text-white outline-none placeholder-muted"
+                  placeholder="メモ（任意）"
+                  value={track.memo ?? ""}
+                  onChange={(e) => updateTrack(i, { memo: e.target.value })}
+                />
                 <div className="flex items-center gap-2">
                   <input
                     className="bg-surface2 rounded-lg px-3 py-2 text-[15px] text-white outline-none placeholder-muted tabular-nums w-24"

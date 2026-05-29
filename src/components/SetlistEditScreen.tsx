@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import DurationPickerModal from "./DurationPickerModal.tsx";
 import {
   DndContext,
   closestCenter,
@@ -30,6 +31,11 @@ function newTrack(): Track {
   return { id: crypto.randomUUID(), name: "", durationSeconds: 0, gapSeconds: 60 };
 }
 
+interface PickerState {
+  trackIndex: number;
+  field: "durationSeconds" | "gapSeconds";
+}
+
 interface CardProps {
   track: Track;
   index: number;
@@ -38,9 +44,10 @@ interface CardProps {
   onRemove: () => void;
   onMenuToggle: () => void;
   onSavePreset: () => void;
+  onOpenPicker: (field: "durationSeconds" | "gapSeconds") => void;
 }
 
-function SortableTrackCard({ track, index, menuOpen, onUpdate, onRemove, onMenuToggle, onSavePreset }: CardProps) {
+function SortableTrackCard({ track, index, menuOpen, onUpdate, onRemove, onMenuToggle, onSavePreset, onOpenPicker }: CardProps) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: track.id });
 
   return (
@@ -71,20 +78,22 @@ function SortableTrackCard({ track, index, menuOpen, onUpdate, onRemove, onMenuT
           onChange={(e) => onUpdate({ memo: e.target.value })}
         />
         <div className="flex items-center gap-2">
-          <input
-            className="bg-surface2 rounded-lg px-3 py-2 text-[15px] text-white outline-none placeholder-muted tabular-nums w-24"
-            placeholder="3:30"
-            defaultValue={formatDuration(track.durationSeconds)}
-            onBlur={(e) => onUpdate({ durationSeconds: parseDuration(e.target.value) })}
-          />
+          <button
+            type="button"
+            onClick={() => onOpenPicker("durationSeconds")}
+            className="bg-surface2 rounded-lg px-3 py-2 text-[15px] text-white tabular-nums w-24 text-left active:opacity-70"
+          >
+            {formatDuration(track.durationSeconds)}
+          </button>
           <span className="text-[12px] text-muted">分:秒</span>
           <span className="text-[12px] text-muted ml-1">gap</span>
-          <input
-            className="bg-surface2 rounded-lg px-3 py-2 text-[15px] text-white outline-none placeholder-muted tabular-nums w-20"
-            placeholder="1:00"
-            defaultValue={formatDuration(track.gapSeconds ?? 60)}
-            onBlur={(e) => onUpdate({ gapSeconds: parseDuration(e.target.value) })}
-          />
+          <button
+            type="button"
+            onClick={() => onOpenPicker("gapSeconds")}
+            className="bg-surface2 rounded-lg px-3 py-2 text-[15px] text-white tabular-nums w-20 text-left active:opacity-70"
+          >
+            {formatDuration(track.gapSeconds ?? 60)}
+          </button>
           <span className="text-[12px] text-muted">分:秒</span>
         </div>
       </div>
@@ -124,6 +133,7 @@ export default function SetlistEditScreen({ initial, onDone, onCancel }: Props) 
   const [comboQuery, setComboQuery] = useState("");
   const [comboOpen, setComboOpen] = useState(false);
   const [trackMenuIndex, setTrackMenuIndex] = useState<number | null>(null);
+  const [pickerState, setPickerState] = useState<PickerState | null>(null);
   const [toast, setToast] = useState<string | null>(null);
 
   const sensors = useSensors(
@@ -223,6 +233,7 @@ export default function SetlistEditScreen({ initial, onDone, onCancel }: Props) 
                     setTrackMenuIndex(null);
                     setToast("プリセットに追加しました");
                   }}
+                  onOpenPicker={(field) => setPickerState({ trackIndex: i, field })}
                 />
               ))}
             </div>
@@ -298,6 +309,18 @@ export default function SetlistEditScreen({ initial, onDone, onCancel }: Props) 
             </div>
           </div>
         </div>
+      )}
+
+      {pickerState && (
+        <DurationPickerModal
+          title={pickerState.field === "durationSeconds" ? "曲の長さ" : "曲間"}
+          initialSeconds={tracks[pickerState.trackIndex][pickerState.field] ?? 60}
+          onConfirm={(sec) => {
+            updateTrack(pickerState.trackIndex, { [pickerState.field]: sec });
+            setPickerState(null);
+          }}
+          onClose={() => setPickerState(null)}
+        />
       )}
 
       {toast && (

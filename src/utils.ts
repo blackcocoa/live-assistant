@@ -23,7 +23,7 @@ export function parseDuration(str: string): number {
     if (parts.length === 2) return parts[0] * 60 + parts[1];
     if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
   }
-  return parseInt(t) || 0;
+  return (parseInt(t) || 0) * 60;
 }
 
 export function totalDurationSec(tracks: { durationSeconds: number; gapSeconds?: number }[]): number {

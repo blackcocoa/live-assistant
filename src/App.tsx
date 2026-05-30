@@ -1,12 +1,14 @@
-import { useState } from "react";
-import StopwatchPanel from "./components/StopwatchPanel";
-import TrackList from "./components/TrackList";
-import SetlistsScreen from "./components/SetlistsScreen";
+import { useState, useEffect } from "react";
+import { handleCallback, createPlaylist, getToken, startAuth } from "./utils/spotify.ts";
+import { useSetlistStore } from "./stores/setlistStore.ts";
+import StopwatchPanel from "./components/StopwatchPanel.tsx";
+import TrackList from "./components/TrackList.tsx";
+import SetlistsScreen from "./components/SetlistsScreen.tsx";
 import TrackPresetsScreen from "./components/TrackPresetsScreen.tsx";
 import ImportScreen from "./components/ImportScreen.tsx";
 import SetlistEditScreen from "./components/SetlistEditScreen.tsx";
 import SetlistPickerModal from "./components/SetlistPickerModal.tsx";
-import type { Screen, Setlist } from "./types";
+import type { Screen, Setlist } from "./types.ts";
 
 function emptySetlist(): Setlist {
   return { id: "", name: "", memo: "", tracks: [] };
@@ -61,6 +63,51 @@ export default function App() {
   const [editing, setEditing] = useState<Setlist | null>(null);
   const [showPicker, setShowPicker] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const [spotifyToast, setSpotifyToast] = useState<{ ok: boolean; message: string } | null>(null);
+  const { setlists } = useSetlistStore();
+
+  useEffect(() => {
+    if (!globalThis.location.search.includes("code=")) return;
+    handleCallback().then(async (result) => {
+      if (!result) return;
+      const { token, pendingSetlistId } = result;
+      const setlist = setlists.find((s) => s.id === pendingSetlistId);
+      if (!setlist) return;
+      try {
+        const url = await createPlaylist(token, setlist.name || "セットリスト", setlist.tracks.map((t) => t.spotifyUrl));
+        setSpotifyToast({ ok: true, message: "Spotifyにプレイリストを作成しました" });
+        globalThis.open(url, "_blank");
+      } catch {
+        setSpotifyToast({ ok: false, message: "プレイリストの作成に失敗しました" });
+      }
+      setScreen("setlists");
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!spotifyToast) return;
+    const id = setTimeout(() => setSpotifyToast(null), 4000);
+    return () => clearTimeout(id);
+  }, [spotifyToast]);
+
+  async function handleExportSpotify(setlist: Setlist) {
+    const token = getToken();
+    if (!token) {
+      startAuth(setlist.id);
+      return;
+    }
+    try {
+      const url = await createPlaylist(token, setlist.name || "セットリスト", setlist.tracks.map((t) => t.spotifyUrl));
+      setSpotifyToast({ ok: true, message: "Spotifyにプレイリストを作成しました" });
+      globalThis.open(url, "_blank");
+    } catch (e) {
+      if (e instanceof Error && e.message === "token_expired") {
+        startAuth(setlist.id);
+      } else {
+        setSpotifyToast({ ok: false, message: "プレイリストの作成に失敗しました" });
+      }
+    }
+  }
 
   function openEditor(setlist: Setlist) {
     setEditing(setlist);
@@ -68,6 +115,14 @@ export default function App() {
   }
 
   const menu = <MenuOverlay showMenu={showMenu} setShowMenu={setShowMenu} setScreen={setScreen} />;
+
+  const toast = spotifyToast && (
+    <div className="fixed bottom-[calc(env(safe-area-inset-bottom,0px)+24px)] left-1/2 -translate-x-1/2 z-[100] pointer-events-none">
+      <div className={`text-white text-[14px] px-5 py-2.5 rounded-full ${spotifyToast.ok ? "bg-[#1DB954]/90" : "bg-danger/90"}`}>
+        {spotifyToast.message}
+      </div>
+    </div>
+  );
 
   if (screen === "tracks") {
     return <>{menu}<TrackPresetsScreen onBack={() => setScreen("main")} onImport={() => setScreen("import")} /></>;
@@ -81,10 +136,12 @@ export default function App() {
     return (
       <>
         {menu}
+        {toast}
         <SetlistsScreen
           onBack={() => setScreen("main")}
           onNew={() => openEditor(emptySetlist())}
           onEdit={(s) => openEditor(s)}
+          onExportSpotify={handleExportSpotify}
         />
       </>
     );

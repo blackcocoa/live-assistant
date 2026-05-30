@@ -8,9 +8,10 @@ interface Props {
   onBack: () => void;
   onNew: () => void;
   onEdit: (setlist: Setlist) => void;
+  onExportSpotify: (setlist: Setlist) => void;
 }
 
-export default function SetlistsScreen({ onBack, onNew, onEdit }: Props) {
+export default function SetlistsScreen({ onBack, onNew, onEdit, onExportSpotify }: Props) {
   const { setlists, remove } = useSetlistStore();
   const loadIntoSW = useStopwatchStore((s) => s.load);
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
@@ -64,6 +65,10 @@ export default function SetlistsScreen({ onBack, onNew, onEdit }: Props) {
             <div className="flex border-t border-sep">
               <button onClick={() => onEdit(s)} className="flex-1 py-3 text-accent text-[15px] active:bg-surface2 transition-colors">
                 ✎ 編集
+              </button>
+              <div className="w-px bg-sep" />
+              <button onClick={() => onExportSpotify(s)} className="flex-1 py-3 text-[#1DB954] text-[15px] active:bg-surface2 transition-colors">
+                Spotify
               </button>
               <div className="w-px bg-sep" />
               <button onClick={() => setConfirmDeleteId(s.id)} className="flex-1 py-3 text-danger text-[15px] active:bg-surface2 transition-colors">

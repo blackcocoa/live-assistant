@@ -8,15 +8,22 @@ interface Props {
 interface JsonItem {
   name: unknown;
   length: unknown;
+  appleMusic?: unknown;
+  spotify?: unknown;
 }
 
-function parseJson(text: string): { name: string; durationSeconds: number }[] {
+function parseJson(text: string): { name: string; durationSeconds: number; appleMusicUrl?: string; spotifyUrl?: string }[] {
   const json = JSON.parse(text);
   if (!json || !Array.isArray(json.items)) throw new Error("items が見つかりません");
   return (json.items as JsonItem[]).map((item, i) => {
     if (typeof item.name !== "string") throw new Error(`items[${i}].name が文字列ではありません`);
     if (typeof item.length !== "number") throw new Error(`items[${i}].length が数値ではありません`);
-    return { name: item.name, durationSeconds: item.length };
+    return {
+      name: item.name,
+      durationSeconds: item.length,
+      appleMusicUrl: typeof item.appleMusic === "string" ? item.appleMusic : undefined,
+      spotifyUrl: typeof item.spotify === "string" ? item.spotify : undefined,
+    };
   });
 }
 
@@ -66,7 +73,12 @@ export default function ImportScreen({ onBack }: Props) {
         <div className="bg-surface rounded-[14px] p-3">
           <pre className="text-[12px] text-muted leading-relaxed whitespace-pre-wrap">{`{
   "items": [
-    { "name": "曲名", "length": 239 }
+    {
+      "name": "曲名",
+      "length": 239,
+      "appleMusic": "https://...",
+      "spotify": "https://..."
+    }
   ]
 }`}</pre>
         </div>

@@ -1,56 +1,82 @@
 {
     "items": [
         {
-            "name": "Interlude_Usurabi",
-            "length": 122
+            "name": "Interlude: Usurabi",
+            "length": 122,
+            "appleMusic": "https://music.apple.com/jp/album/interlude-usurabi/1774681666?i=1774681928",
+            "spotify": "https://open.spotify.com/track/34kXTfxBYivqr5hcb7Nmaw"
         },
         {
             "name": "haruka",
-            "length": 358
+            "length": 358,
+            "appleMusic": "https://music.apple.com/jp/album/haruka/1774681666?i=1774682044",
+            "spotify": "https://open.spotify.com/track/3WYpBaVGQxWKEJlnWDsBTc"
         },
         {
             "name": "Introduction",
-            "length": 169
+            "length": 169,
+            "appleMusic": "https://music.apple.com/jp/album/introduction/1774681666?i=1774681914",
+            "spotify": "https://open.spotify.com/track/1EsLFFkh4nPoibec9BTdBV"
         },
         {
             "name": "Optodive",
-            "length": 260
+            "length": 260,
+            "appleMusic": "https://music.apple.com/jp/album/optodive/1774681666?i=1774681933",
+            "spotify": "https://open.spotify.com/track/0d8ZIxm5icnI9sWIrb5pD7"
         },
         {
             "name": "Happiness",
-            "length": 301
+            "length": 301,
+            "appleMusic": "https://music.apple.com/jp/album/happiness-hidden-halo/1882988916?i=1882989174",
+            "spotify": "https://open.spotify.com/track/1LcgIHMgLDmsGtbcp5Ma43"
         },
         {
-            "name": "Interlude_Hakumei",
-            "length": 146
+            "name": "Interlude: Hakumei",
+            "length": 146,
+            "appleMusic": "https://music.apple.com/jp/album/interlude-hakumei/1774681666?i=1774681973",
+            "spotify": "https://open.spotify.com/track/1gN5ffMnNkLq4WIFV0uyL2"
         },
         {
             "name": "Deconstruction",
-            "length": 325
+            "length": 325,
+            "appleMusic": "https://music.apple.com/jp/album/deconstruction/1774681666?i=1774681925",
+            "spotify": "https://open.spotify.com/track/67VnnmmjNcJern6Xz52llD"
         },
         {
             "name": "Billion Balances",
-            "length": 243
+            "length": 243,
+            "appleMusic": "https://music.apple.com/jp/album/billion-balances/1774681666?i=1774681918",
+            "spotify": "https://open.spotify.com/track/5cHoEDOHysSncsz0KigjRe"
         },
         {
             "name": "i can't dance",
-            "length": 369
+            "length": 369,
+            "spotify": "https://open.spotify.com/track/36dZcQE0RML5NHsdbcYOBT",
+            "appleMusic": "https://music.apple.com/jp/album/i-cant-dance/1774681666?i=1774681972"
         },
         {
             "name": "Stargazer",
-            "length": 307
+            "length": 307,
+            "appleMusic": "https://music.apple.com/jp/album/stargazer/1774681666?i=1774682056",
+            "spotify": "https://open.spotify.com/track/6CoTIlw2bMF3fMy5MBg6xW"
         },
         {
             "name": "Flowers",
-            "length": 354
+            "length": 354,
+            "appleMusic": "https://music.apple.com/jp/album/flowers/1774681666?i=1774682035",
+            "spotify": "https://open.spotify.com/track/61o5gbxgOWcEq0euATimrE"
         },
         {
             "name": "Kawasemi",
-            "length": 317
+            "length": 317,
+            "appleMusic": "https://music.apple.com/jp/album/kawasemi/1774681666?i=1774682209",
+            "spotify": "https://open.spotify.com/track/4lzilzvZku1pQZptx9jwxu"
         },
         {
             "name": "Fragrance",
-            "length": 289
+            "length": 289,
+            "appleMusic": "https://music.apple.com/jp/album/fragrance/1774681666?i=1774682037",
+            "spotify": "https://open.spotify.com/track/36jlPNFO4g3KSyfgdmy00G"
         },
         {
             "name": "Osmanthus",
@@ -58,7 +84,9 @@
         },
         {
             "name": "Catching Waves",
-            "length": 351
+            "length": 351,
+            "appleMusic": "https://music.apple.com/jp/album/catching-waves/1846997524?i=1846997526",
+            "spotify": "https://open.spotify.com/track/2GLu4UTcuE0HRCx0XXeA2c"
         },
         {
             "name": "Violet Plains",
@@ -66,11 +94,9 @@
         },
         {
             "name": "弔いの海 (Hello1103 Remix)",
-            "length": 304
-        },
-        {
-            "name": "Forgotten Haven (live)",
-            "length": 441
+            "length": 304,
+            "appleMusic": "https://music.apple.com/jp/album/%E5%BC%94%E3%81%84%E3%81%AE%E6%B5%B7-hello1103-remix/1856136369?i=1856136372",
+            "spotify": "https://open.spotify.com/track/4j13lx5XaStQHBs58Tcki3"
         },
         {
             "name": "Lurraby",
@@ -78,79 +104,114 @@
         },
         {
             "name": "コバルトの泡沫",
-            "length": 271
+            "length": 271,
+            "appleMusic": "https://music.apple.com/jp/album/%E3%82%B3%E3%83%90%E3%83%AB%E3%83%88%E3%81%AE%E6%B3%A1%E6%B2%AB/1893319565?i=1893319570"
         },
         {
             "name": "溜息",
-            "length": 145
+            "length": 145,
+            "spotify": "https://open.spotify.com/track/656qLqLNFnuxjrsyWRV7MO",
+            "appleMusic": "https://music.apple.com/jp/album/%E6%BA%9C%E6%81%AF/6768363827?i=6768363834"
         },
         {
             "name": "くもり空に微笑む",
-            "length": 291
+            "length": 291,
+            "spotify": "https://open.spotify.com/track/02X23Pb9vWc5zhC521cukw"
         },
         {
             "name": "さざめき",
-            "length": 230
+            "length": 230,
+            "spotify": "https://open.spotify.com/intl-ja/track/09eKUZxxjGBiJzkjYwKRGL",
+            "appleMusic": "https://music.apple.com/jp/album/%E3%81%95%E3%81%96%E3%82%81%E3%81%8D/6768363827?i=6768363828"
         },
         {
             "name": "空砲",
-            "length": 360
+            "length": 360,
+            "spotify": "https://open.spotify.com/track/12KmafxCyoDRAYUAIRg6oV",
+            "appleMusic": "https://music.apple.com/jp/album/%E7%A9%BA%E7%A0%B2/6768363827?i=6768363835"
         },
         {
             "name": "Wavefolder",
-            "length": 231
+            "length": 231,
+            "appleMusic": "https://music.apple.com/jp/album/wavefolder/1878920008?i=1878920328",
+            "spotify": "https://open.spotify.com/track/7G8DhfueAgZgbej4CWJQ38"
         },
         {
             "name": "Optodive (34423 Remix)",
-            "length": 261
+            "length": 261,
+            "appleMusic": "https://music.apple.com/jp/album/optodive-34423-remix/1807452476?i=1807452512",
+            "spotify": "https://open.spotify.com/track/4i882cdUG6DFylL8mytFis"
         },
         {
             "name": "Usurabi (DRUGONDRAGON Remix)",
-            "length": 211
+            "length": 211,
+            "appleMusic": "https://music.apple.com/jp/album/usurabi-drugondragon-remix/1807452476?i=1807452507",
+            "spotify": "https://open.spotify.com/track/4FnzT2fxwiqSUuuop9T4QJ"
         },
         {
             "name": "Stargazer (kidlit Remix)",
-            "length": 302
+            "length": 302,
+            "appleMusic": "https://music.apple.com/jp/album/stargazer-kidlit-remix/1807452476?i=1807452920",
+            "spotify": "https://open.spotify.com/track/5zSxz2udFH0ijObKLrmM0R"
         },
         {
             "name": "i can’t dance - The City and The Stars Remix (sheeplore Remix)",
-            "length": 340
+            "length": 340,
+            "appleMusic": "https://music.apple.com/jp/album/i-cant-dance-sheeplore-the-city-and-the-stars-remix/1807452476?i=1807452513",
+            "spotify": "https://open.spotify.com/track/0yPcEZKzfuWpBqfb6c7jRo"
         },
         {
             "name": "Flowers (illequal Remix)",
-            "length": 305
+            "length": 305,
+            "appleMusic": "https://music.apple.com/jp/album/flowers-illequal-remix/1807452476?i=1807452522",
+            "spotify": "https://open.spotify.com/track/4LBzgFhzf7mg4sRLMZXEgA"
         },
         {
             "name": "Hakumei - asayake alone Remix (tetote Remix)",
-            "length": 164
+            "length": 164,
+            "appleMusic": "https://music.apple.com/jp/album/hakumei-tetote-asayake-alone-remix/1807452476?i=1807452514",
+            "spotify": "https://open.spotify.com/track/3on7unluX9Jfk6f6KhyPoD"
         },
         {
             "name": "Introduction - _Billion Balances_ Album Remix (Hello1103)",
-            "length": 104
+            "length": 104,
+            "appleMusic": "https://music.apple.com/jp/album/introduction-billion-balances-remix/1807452476?i=1807452480"
         },
         {
             "name": "Happiness (world's end girlfriend Remix)",
-            "length": 353
+            "length": 353,
+            "appleMusic": "https://music.apple.com/jp/album/happiness-worlds-end-girlfriend-remix/1807452476?i=1807452935",
+            "spotify": "https://open.spotify.com/track/7Hgd52bEibPe3gOvuRvhzd"
         },
         {
             "name": "Billion Balances (Acidclank Remix)",
-            "length": 203
+            "length": 203,
+            "appleMusic": "https://music.apple.com/jp/album/billion-balances-acidclank-remix/1807452476?i=1807452484",
+            "spotify": "https://open.spotify.com/track/22d7CcCI7qDG7HXHOWEwpd"
         },
         {
             "name": "haruka (ΣKIYM Remix)",
-            "length": 363
+            "length": 363,
+            "appleMusic": "https://music.apple.com/jp/album/haruka-%CF%83kiym-remix/1807452476?i=1807452838",
+            "spotify": "https://open.spotify.com/track/6Fhwv2UAVCyKVCekwNAyY3"
         },
         {
             "name": "Kawasemi (Samuel Smoky Purple Remix)",
-            "length": 339
+            "length": 339,
+            "appleMusic": "https://music.apple.com/jp/album/kawasemi-samuel-smoky-purple-remix/1807452476?i=1807452932",
+            "spotify": "https://open.spotify.com/track/6bFypPsZJrgrNeDRcgUsdA"
         },
         {
             "name": "Fragrance (Haruhisa Tanaka Remix)",
-            "length": 166
+            "length": 166,
+            "appleMusic": "https://music.apple.com/jp/album/fragrance-haruhisa-tanaka-remix/1807452476?i=1807452523",
+            "spotify": "https://open.spotify.com/track/5uTGMHggbDi66zizUC6gBc"
         },
         {
             "name": "Deconstruction (DNAAK Remix)",
-            "length": 263
+            "length": 263,
+            "appleMusic": "https://music.apple.com/jp/album/deconstruction-dnaak-remix/1807452476?i=1807452501",
+            "spotify": "https://open.spotify.com/track/5BWSiNCs6Q2DBlwX6V0FHY"
         },
         {
             "name": "楡の夢 (Hello1103 Remix)",
@@ -158,143 +219,169 @@
         },
         {
             "name": "Forgotten Haven",
-            "length": 304
+            "length": 304,
+            "spotify": "https://open.spotify.com/track/3yOF7lkQrDDvymtRyYKROd",
+            "appleMusic": "https://music.apple.com/jp/album/forgotten-haven/1756041985?i=1756042213"
         },
         {
-            "name": "Moonlit.",
-            "length": 172
+            "name": "Moonlit",
+            "length": 172,
+            "appleMusic": "https://music.apple.com/jp/album/moonlit/1756041985?i=1756042003",
+            "spotify": "https://open.spotify.com/track/3wG2Qgx0kl0Jn8vyis3ID5"
         },
         {
             "name": "Bottomless",
-            "length": 408
+            "length": 408,
+            "appleMusic": "https://music.apple.com/jp/album/bottomless/1756041985?i=1756042206",
+            "spotify": "https://open.spotify.com/track/2TEJOsV7I71qcnBTDnhKXi"
         },
         {
             "name": "Dusk",
-            "length": 255
+            "length": 255,
+            "appleMusic": "https://music.apple.com/jp/album/dusk/1756041985?i=1756041996",
+            "spotify": "https://open.spotify.com/track/0ZhoedgmFC9fPkYviiWAyp"
         },
         {
             "name": "Goodbye",
-            "length": 178
+            "length": 178,
+            "appleMusic": "https://music.apple.com/jp/album/goodbye/1756041985?i=1756042192",
+            "spotify": "https://open.spotify.com/track/3NURZgtnHXJAJ5uxTEsdur"
         },
         {
             "name": "Wriggle",
-            "length": 178
+            "length": 178,
+            "appleMusic": "https://music.apple.com/jp/album/wriggle/1756041985?i=1756042199",
+            "spotify": "https://open.spotify.com/track/20ulsuRkt7H3PX8fPkjMPa"
         },
         {
             "name": "Susurration",
-            "length": 543
+            "length": 543,
+            "appleMusic": "https://music.apple.com/jp/album/susurration/1756041985?i=1756041989",
+            "spotify": "https://open.spotify.com/track/4MpqtEokuw2OgjRPDnTnyX"
         },
         {
             "name": "Surprise",
-            "length": 251
+            "length": 251,
+            "appleMusic": "https://music.apple.com/jp/album/surprise/1369813690?i=1369813846",
+            "spotify": "https://open.spotify.com/track/11NBMAXfQVaooa94PQmiDO"
         },
         {
             "name": "Sorrow",
-            "length": 276
+            "length": 276,
+            "appleMusic": "https://music.apple.com/jp/album/sorrow/1369813690?i=1369813848",
+            "spotify": "https://open.spotify.com/track/7v4he0FqTUZjWRlhexIEIJ"
         },
         {
             "name": "(dis) Likes",
-            "length": 304
+            "length": 304,
+            "spotify": "https://open.spotify.com/track/5b5b3TtBNZFCOtQG5LticC",
+            "appleMusic": "https://music.apple.com/jp/album/dis-likes/1369813690?i=1369813845"
         },
         {
             "name": "Joy",
-            "length": 351
+            "length": 351,
+            "appleMusic": "https://music.apple.com/jp/album/joy/1369813690?i=1369813849",
+            "spotify": "https://open.spotify.com/track/54FbKInTCOdZf15W88VOCt"
         },
         {
             "name": "Anger",
-            "length": 197
+            "length": 197,
+            "appleMusic": "https://music.apple.com/jp/album/anger/1369813690?i=1369813847",
+            "spotify": "https://open.spotify.com/track/1VEoLULJhUxY5gTebusxwb"
         },
         {
             "name": "Homeostasis",
-            "length": 390
+            "length": 390,
+            "spotify": "https://open.spotify.com/track/6qiRPCZu7adgRMZ3UA7ABJ",
+            "appleMusic": "https://music.apple.com/jp/album/homeostasis/1369813690?i=1369813850"
         },
         {
             "name": "Candlelight",
-            "length": 283
+            "length": 283,
+            "appleMusic": "https://music.apple.com/jp/album/candlelight/1894109269?i=1894109278",
+            "spotify": "https://open.spotify.com/track/1mpz77jfgodPbIFyB6yWH4"
         },
         {
             "name": "Twelve Night Sketches",
-            "length": 454
+            "length": 454,
+            "spotify": "https://open.spotify.com/track/4lntqAPuPNhw18iFIZc8mR",
+            "appleMusic": "https://music.apple.com/jp/album/twelve-nights-sketches/1894109269?i=1894109804"
         },
         {
             "name": "Interlude",
-            "length": 118
+            "length": 118,
+            "spotify": "https://open.spotify.com/track/732ptX5a0pEZ9Duw9sZot7",
+            "appleMusic": "https://music.apple.com/jp/album/interlude-usurabi/1774681666?i=1774681928"
         },
         {
             "name": "Memories of the doll",
-            "length": 208
+            "length": 208,
+            "spotify": "https://open.spotify.com/track/6cyeuj3vMFGDfi65bdAnYs",
+            "appleMusic": "https://music.apple.com/jp/album/memories-of-the-doll/1894109269?i=1894109286"
         },
         {
             "name": "Hollow Room",
-            "length": 384
+            "length": 384,
+            "spotify": "https://open.spotify.com/track/3av4IuD9E3JNmKobJ285y6",
+            "appleMusic": "https://music.apple.com/jp/album/hollow-room/1894109269?i=1894109805"
         },
         {
             "name": "Petals Chatting",
-            "length": 147
+            "length": 147,
+            "appleMusic": "https://music.apple.com/jp/album/petals-chatting/1894109269?i=1894109281",
+            "spotify": "https://open.spotify.com/track/3cAD29LpvSvLKLowJLMida"
         },
         {
             "name": "Anemone",
-            "length": 217
+            "length": 217,
+            "spotify": "https://open.spotify.com/track/6IDRveBgvd5Gict6GvKSvh",
+            "appleMusic": "https://music.apple.com/jp/album/anemone/1894109269?i=1894109274"
         },
         {
             "name": "Goodnight",
-            "length": 174
+            "length": 174,
+            "appleMusic": "https://music.apple.com/jp/album/goodnight/1894109269?i=1894109808",
+            "spotify": "https://open.spotify.com/track/5UnEgG3RY7RE5TI9mLTfZ6"
         },
         {
             "name": "灰の歌",
             "length": 336
         },
         {
-            "name": "The Theme Of Mouseion",
-            "length": 304
-        },
-        {
-            "name": "知識の大樹 - 古代図書館",
-            "length": 360
-        },
-        {
-            "name": "巡路",
-            "length": 347
-        },
-        {
-            "name": "雪原を越える",
-            "length": 253
-        },
-        {
-            "name": "偽書と戦火",
-            "length": 332
-        },
-        {
             "name": "lilac",
-            "length": 325
+            "length": 325,
+            "spotify": "https://open.spotify.com/track/77cqRYawkgOv9YBGLe4z0f",
+            "appleMusic": "https://music.apple.com/jp/album/lilac/1717122904?i=1717123884"
         },
         {
             "name": "haruka",
-            "length": 361
+            "length": 361,
+            "appleMusic": "https://music.apple.com/jp/album/haruka/1774681666?i=1774682044",
+            "spotify": "https://open.spotify.com/track/3WYpBaVGQxWKEJlnWDsBTc"
         },
         {
             "name": "Have a good trip",
-            "length": 863
+            "length": 863,
         },
         {
             "name": "Fragrance",
-            "length": 289
+            "length": 289,
+            "appleMusic": "https://music.apple.com/jp/album/fragrance/1774681666?i=1774682037",
+            "spotify": "https://open.spotify.com/track/36jlPNFO4g3KSyfgdmy00G"
         },
         {
             "name": "Flowers (yk cover)",
-            "length": 210
+            "length": 210,
         },
         {
             "name": "Flowers",
-            "length": 346
+            "length": 346,
+            "appleMusic": "https://music.apple.com/jp/album/flowers/1774681666?i=1774682035",
+            "spotify": "https://open.spotify.com/track/61o5gbxgOWcEq0euATimrE"
         },
         {
             "name": "巡路",
             "length": 337
-        },
-        {
-            "name": "灰の歌",
-            "length": 358
         },
         {
             "name": "The Theme of Mouseion",
@@ -310,11 +397,8 @@
         },
         {
             "name": "偽書と戦火",
-            "length": 330
-        },
-        {
-            "name": "巡路（架空語番）",
-            "length": 347
+            "length": 330,
+            "appleMusic": "https://music.apple.com/jp/album/the-r/1038834315?i=1038834319"
         },
         {
             "name": "Hopes And Dreams",
@@ -330,119 +414,177 @@
         },
         {
             "name": "Prediction",
-            "length": 258
+            "length": 258,
+            "spotify": "https://open.spotify.com/track/0d02Do0GceT71wTTVq6bEE",
+            "appleMusic": "https://music.apple.com/jp/album/prediction/1648636615?i=1648636616"
         },
         {
             "name": "Ophiopogon planiscapus Nigrescens",
-            "length": 635
+            "length": 635,
+            "spotify": "https://open.spotify.com/track/1bGkKYrzhH4UpVQ8uYIlbC",
+            "appleMusic": "https://music.apple.com/jp/album/ophiopogon-planiscapus-nigrescens/1648636615?i=1648636627"
         },
         {
             "name": "時の木",
-            "length": 227
+            "length": 227,
+            "spotify": "https://open.spotify.com/track/6cvaKdNFzu5AH0TpIH7OIT",
+            "appleMusic": "https://music.apple.com/jp/album/%E6%99%82%E3%81%AE%E6%9C%A8/1648636615?i=1648636626"
         },
         {
             "name": "Transparent Festival",
-            "length": 202
+            "length": 202,
+            "spotify": "https://open.spotify.com/track/5lGRZXeDdmd89qCwJVa9t5",
+            "appleMusic": "https://music.apple.com/jp/album/transparent-festival/1648636615?i=1648636620"
         },
         {
             "name": "鉄の葉脈",
-            "length": 254
+            "length": 254,
+            "spotify": "https://open.spotify.com/track/7DSWSw6CzV37NdDmA8MAiX",
+            "appleMusic": "https://music.apple.com/jp/album/%E9%89%84%E3%81%AE%E8%91%89%E8%84%88-2024/1734841179?i=1734841283"
         },
         {
             "name": "楡の夢",
-            "length": 230
+            "length": 230,
+            "spotify": "https://open.spotify.com/track/7vWYrZJqTvOqfJHB29yHtj",
+            "appleMusic": "https://music.apple.com/jp/album/%E6%A5%A1%E3%81%AE%E5%A4%A2/1648636615?i=1648636622"
         },
         {
             "name": "Ark",
-            "length": 267
+            "length": 267,
+            "spotify": "https://open.spotify.com/track/33JXweXYE4Lz4pYaf2QlVF",
+            "appleMusic": "https://music.apple.com/jp/album/ark-feat-yk/1648669266?i=1648670452"
         },
         {
             "name": "世界の雨",
-            "length": 313
+            "length": 313,
+            "spotify": "https://open.spotify.com/track/7a6rIbKSYYIOzFlcIu9mHj",
+            "appleMusic": "https://music.apple.com/jp/album/%E4%B8%96%E7%95%8C%E3%81%AE%E9%9B%A8/1648636615?i=1648636619"
         },
         {
             "name": "Rainbow Kingfisher",
-            "length": 211
+            "length": 211,
+            "spotify": "https://open.spotify.com/track/77AaSWnOQg6U4nwWTfng27",
+            "appleMusic": "https://music.apple.com/jp/album/rainbow-kingfisher/1648636615?i=1648636634"
         },
         {
             "name": "Enthusiasm",
-            "length": 312
+            "length": 312,
+            "spotify": "https://open.spotify.com/track/1sRedOirgZv385exO2zNUS",
+            "appleMusic": "https://music.apple.com/jp/album/enthusiasm/1648636615?i=1648636618"
         },
         {
             "name": "Deconstruction",
-            "length": 324
+            "length": 324,
+            "appleMusic": "https://music.apple.com/jp/album/deconstruction/1774681666?i=1774681925",
+            "spotify": "https://open.spotify.com/track/67VnnmmjNcJern6Xz52llD"
         },
         {
             "name": "Invitation (long version)",
-            "length": 255
+            "length": 255,
+            "spotify": "https://open.spotify.com/track/6YVSAulxmADDbEQ8lgTEqM",
+            "appleMusic": "https://music.apple.com/jp/album/invitation-long-version/1648669266?i=1648669597"
         },
         {
             "name": "Ark feat. yk",
-            "length": 280
+            "length": 280,
+            "spotify": "https://open.spotify.com/track/2gzqqYqu76E1NkT8PRVwWx",
+            "appleMusic": "https://music.apple.com/jp/album/ark-feat-yk/1648669266?i=1648670452"
         },
         {
             "name": "Emma",
-            "length": 320
+            "length": 320,
+            "spotify": "https://open.spotify.com/track/5uc0MmdNUH4vb6jQ89W9w8",
+            "appleMusic": "https://music.apple.com/jp/album/emma/1648669266?i=1648670185"
         },
         {
             "name": "雑踏のためのクワイア・ミュージック",
-            "length": 295
+            "length": 295,
+            "spotify": "https://open.spotify.com/intl-ja/track/44kSYNSntTjjw8q6PWzu2O",
+            "appleMusic": "https://music.apple.com/jp/album/%E9%9B%91%E8%B8%8F%E3%81%AE%E3%81%9F%E3%82%81%E3%81%AE%E3%82%AF%E3%83%AF%E3%82%A4%E3%82%A2-%E3%83%9F%E3%83%A5%E3%83%BC%E3%82%B8%E3%83%83%E3%82%AF/1614595955?i=1614596198"
         },
         {
             "name": "Calling",
-            "length": 473
+            "length": 473,
+            "spotify": "https://open.spotify.com/track/0bGZmoaHUcjqpPTV1mPr5f",
+            "appleMusic": "https://music.apple.com/jp/album/calling/1648669266?i=1648670296"
         },
         {
             "name": "Evergreen",
-            "length": 269
+            "length": 269,
+            "spotify": "https://open.spotify.com/track/2aZL2bONLxRpQsRpyCLSbc",
+            "appleMusic": "https://music.apple.com/jp/album/evergreen/1648669266?i=1648669586"
         },
         {
             "name": "春と眠り",
-            "length": 255
+            "length": 255,
+            "spotify": "https://open.spotify.com/track/0fpliWwHh23TkoJw7plQCb",
+            "appleMusic": "https://music.apple.com/jp/album/%E6%98%A5%E3%81%A8%E7%9C%A0%E3%82%8A/1648669266?i=1648669588"
         },
         {
             "name": "またおなじ夜明け",
-            "length": 256
+            "length": 256,
+            "spotify": "https://open.spotify.com/intl-ja/track/2klmdgA0limCRhLFWqt96Y",
+            "appleMusic": "https://music.apple.com/jp/album/%E3%81%BE%E3%81%9F%E3%81%8A%E3%81%AA%E3%81%98%E5%A4%9C%E6%98%8E%E3%81%91/1648669266?i=1648669353"
         },
         {
             "name": "Evergreen Memories",
-            "length": 93
+            "length": 93,
+            "spotify": "https://open.spotify.com/track/2aZL2bONLxRpQsRpyCLSbc",
+            "appleMusic": "https://music.apple.com/jp/album/evergreen-memories/1648669266?i=1648670456"
         },
         {
             "name": "Construction",
-            "length": 158
+            "length": 158,
+            "spotify": "https://open.spotify.com/track/2GLCXR1GJdL1Uei8QrNnxy",
+            "appleMusic": "https://music.apple.com/jp/album/construction/1648669266?i=1648670306"
         },
         {
             "name": "i can dance",
-            "length": 279
+            "length": 279,
+            "spotify": "https://open.spotify.com/track/64E9EUWW6gDYmcMbSy74pL",
+            "appleMusic": "https://music.apple.com/jp/album/i-can-dance/1536890965?i=1536890970"
         },
         {
             "name": "C3",
-            "length": 376
+            "length": 376,
+            "spotify": "https://open.spotify.com/track/2CJhUWINxFS77Imrlwl07U",
+            "appleMusic": "https://music.apple.com/jp/album/c3/1536890965?i=1536890974"
         },
         {
             "name": "aruhi",
-            "length": 440
+            "length": 440,
+            "spotify": "https://open.spotify.com/track/0wGn3ANoGd0NNfL5hhezZz",
+            "appleMusic": "https://music.apple.com/jp/album/snow-of-ashes-feat-heidi/1536890965?i=1536890968"
         },
         {
             "name": "Rain Into the World",
-            "length": 121
+            "length": 121,
+            "spotify": "https://open.spotify.com/track/15FXNLd9dU4h6unb7XwXHS",
+            "appleMusic": "https://music.apple.com/jp/album/rain-into-the-world/1536890965?i=1536890967"
         },
         {
             "name": "5 a.m. Tangerine Dawn",
-            "length": 120
+            "length": 120,
+            "spotify": "https://open.spotify.com/track/7KXSW74kJxbfwBGVEV1UrR",
+            "appleMusic": "https://music.apple.com/jp/album/5-a-m-tangerine-dawn/1536890965?i=1536891097"
         },
         {
             "name": "Snow of Ashes feat. Heidi",
-            "length": 245
+            "length": 245,
+            "spotify": "https://open.spotify.com/track/5Y2vPW64xj3SVuv5dZ9r2I",
+            "appleMusic": "https://music.apple.com/jp/album/snow-of-ashes-feat-heidi/1536890965?i=1536890968"
         },
         {
             "name": "3 a.m. Violet Dream",
-            "length": 112
+            "length": 112,
+            "spotify": "https://open.spotify.com/track/2pXDetKtp0N37R17QFPvP3",
+            "appleMusic": "https://music.apple.com/jp/album/3-a-m-violet-dream/1536890965?i=1536890972"
         },
         {
             "name": "Hyperbloom",
-            "length": 188
+            "length": 188,
+            "spotify": "https://open.spotify.com/track/5kH2Nii1aUzMXY2n1Xnp7z",
+            "appleMusic": "https://music.apple.com/jp/album/hyperbloom/1514072583?i=1514072858"
         }
     ]
 }

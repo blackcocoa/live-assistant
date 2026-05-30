@@ -103,10 +103,13 @@ export async function createPlaylist(
   token: string,
   name: string,
   trackUrls: (string | undefined)[],
+  description?: string,
 ): Promise<string> {
+  const body: Record<string, unknown> = { name, public: true };
+  if (description) body.description = description;
   const playlist = await apiFetch(token, "/me/playlists", {
     method: "POST",
-    body: JSON.stringify({ name, public: true }),
+    body: JSON.stringify(body),
   });
   const playlistId: string = playlist.id;
   const playlistUrl: string = playlist.external_urls.spotify;

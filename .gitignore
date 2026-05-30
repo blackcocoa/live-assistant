@@ -1,3 +1,5 @@
 .DS_Store
 node_modules
 dist
+*.p8
+.env.local

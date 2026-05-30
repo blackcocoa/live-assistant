@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { handleCallback, createPlaylist, getToken, startAuth } from "./utils/spotify.ts";
+import { getToken as getAppleToken, authorize as authorizeAppleMusic, createPlaylist as createApplePlaylist } from "./utils/appleMusic.ts";
 import { useSetlistStore } from "./stores/setlistStore.ts";
 import StopwatchPanel from "./components/StopwatchPanel.tsx";
 import TrackList from "./components/TrackList.tsx";
@@ -74,7 +75,7 @@ export default function App() {
       const setlist = setlists.find((s) => s.id === pendingSetlistId);
       if (!setlist) return;
       try {
-        const url = await createPlaylist(token, setlist.name || "セットリスト", setlist.tracks.map((t) => t.spotifyUrl));
+        const url = await createPlaylist(token, setlist.name || "セットリスト", setlist.tracks.map((t) => t.spotifyUrl), setlist.memo || undefined);
         setSpotifyToast({ ok: true, message: "Spotifyにプレイリストを作成しました" });
         globalThis.open(url, "_blank");
       } catch {
@@ -97,7 +98,7 @@ export default function App() {
       return;
     }
     try {
-      const url = await createPlaylist(token, setlist.name || "セットリスト", setlist.tracks.map((t) => t.spotifyUrl));
+      const url = await createPlaylist(token, setlist.name || "セットリスト", setlist.tracks.map((t) => t.spotifyUrl), setlist.memo || undefined);
       setSpotifyToast({ ok: true, message: "Spotifyにプレイリストを作成しました" });
       globalThis.open(url, "_blank");
     } catch (e) {
@@ -105,6 +106,28 @@ export default function App() {
         startAuth(setlist.id);
       } else {
         setSpotifyToast({ ok: false, message: "プレイリストの作成に失敗しました" });
+      }
+    }
+  }
+
+  async function handleExportAppleMusic(setlist: Setlist) {
+    async function doExport(token: string) {
+      const url = await createApplePlaylist(token, setlist.name || "セットリスト", setlist.tracks.map((t) => t.appleMusicUrl), setlist.memo || undefined);
+      setSpotifyToast({ ok: true, message: "Apple Musicにプレイリストを作成しました" });
+      globalThis.open(url, "_blank");
+    }
+    try {
+      const token = getAppleToken() ?? await authorizeAppleMusic();
+      await doExport(token);
+    } catch (e) {
+      if (e instanceof Error && e.message === "token_expired") {
+        try {
+          await doExport(await authorizeAppleMusic());
+        } catch {
+          setSpotifyToast({ ok: false, message: "Apple Musicのプレイリスト作成に失敗しました" });
+        }
+      } else {
+        setSpotifyToast({ ok: false, message: "Apple Musicのプレイリスト作成に失敗しました" });
       }
     }
   }
@@ -142,6 +165,7 @@ export default function App() {
           onNew={() => openEditor(emptySetlist())}
           onEdit={(s) => openEditor(s)}
           onExportSpotify={handleExportSpotify}
+          onExportAppleMusic={handleExportAppleMusic}
         />
       </>
     );

@@ -17,7 +17,7 @@ function persist(presets: TrackPreset[]): void {
 
 interface TrackPresetStore {
   presets: TrackPreset[];
-  save: (name: string, durationSeconds: number) => void;
+  save: (name: string, durationSeconds: number, urls?: { appleMusicUrl?: string; spotifyUrl?: string }) => void;
   importPresets: (items: { name: string; durationSeconds: number }[]) => void;
   remove: (id: string) => void;
   clear: () => void;
@@ -26,8 +26,8 @@ interface TrackPresetStore {
 export const useTrackPresetStore = create<TrackPresetStore>((set, get) => ({
   presets: load(),
 
-  save(name, durationSeconds) {
-    const preset: TrackPreset = { id: crypto.randomUUID(), name, durationSeconds };
+  save(name, durationSeconds, urls = {}) {
+    const preset: TrackPreset = { id: crypto.randomUUID(), name, durationSeconds, ...urls };
     const presets = [...get().presets, preset];
     persist(presets);
     set({ presets });

@@ -161,7 +161,7 @@ export default function SetlistEditScreen({ initial, onDone, onCancel }: Props) 
 
   function addTrack(preset?: TrackPreset) {
     const track = preset
-      ? { id: crypto.randomUUID(), name: preset.name, durationSeconds: preset.durationSeconds, gapSeconds: 60 }
+      ? { id: crypto.randomUUID(), name: preset.name, durationSeconds: preset.durationSeconds, gapSeconds: 60, appleMusicUrl: preset.appleMusicUrl, spotifyUrl: preset.spotifyUrl }
       : newTrack();
     setTracks((prev) => [...prev, track]);
     setComboQuery("");

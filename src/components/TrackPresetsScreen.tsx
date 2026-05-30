@@ -10,28 +10,27 @@ interface Props {
 
 export default function TrackPresetsScreen({ onBack, onImport }: Props) {
   const { presets, save, remove, clear } = useTrackPresetStore();
-  const [editing, setEditing] = useState<{ id: string | null; name: string; duration: string } | null>(null);
+  const [editing, setEditing] = useState<{ id: string | null; name: string; duration: string; appleMusicUrl: string; spotifyUrl: string } | null>(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const [confirmClearAll, setConfirmClearAll] = useState(false);
   const [showActionMenu, setShowActionMenu] = useState(false);
 
   function openNew() {
-    setEditing({ id: null, name: "", duration: "3:00" });
+    setEditing({ id: null, name: "", duration: "3:00", appleMusicUrl: "", spotifyUrl: "" });
   }
 
   function openEdit(p: TrackPreset) {
-    setEditing({ id: p.id, name: p.name, duration: formatDuration(p.durationSeconds) });
+    setEditing({ id: p.id, name: p.name, duration: formatDuration(p.durationSeconds), appleMusicUrl: p.appleMusicUrl ?? "", spotifyUrl: p.spotifyUrl ?? "" });
   }
 
   function handleSave() {
     if (!editing || !editing.name.trim()) return;
     const durationSeconds = parseDuration(editing.duration);
-    if (editing.id) {
-      // update existing by remove + re-save with same id not possible in current store
-      // so remove old and save new with same position — simplest: just save new
-      remove(editing.id);
-    }
-    save(editing.name.trim(), durationSeconds);
+    if (editing.id) remove(editing.id);
+    save(editing.name.trim(), durationSeconds, {
+      appleMusicUrl: editing.appleMusicUrl.trim() || undefined,
+      spotifyUrl: editing.spotifyUrl.trim() || undefined,
+    });
     setEditing(null);
   }
 
@@ -120,7 +119,7 @@ export default function TrackPresetsScreen({ onBack, onImport }: Props) {
                     onChange={(e) => setEditing({ ...editing, name: e.target.value })}
                   />
                 </div>
-                <div className="flex items-center px-4 min-h-[48px]">
+                <div className="flex items-center px-4 border-b border-sep min-h-[48px]">
                   <label className="text-[14px] text-muted w-14 shrink-0">時間</label>
                   <input
                     className="flex-1 bg-transparent text-white text-[15px] py-3 outline-none placeholder-muted tabular-nums"
@@ -129,6 +128,23 @@ export default function TrackPresetsScreen({ onBack, onImport }: Props) {
                     onChange={(e) => setEditing({ ...editing, duration: e.target.value })}
                   />
                   <span className="text-[13px] text-muted">分:秒</span>
+                </div>
+                <div className="flex items-start px-4 min-h-[48px]">
+                  <label className="text-[14px] text-muted w-14 shrink-0 pt-3">URL</label>
+                  <div className="flex-1 flex flex-col py-2 gap-2">
+                    <input
+                      className="w-full bg-transparent text-white text-[13px] py-1.5 px-2 outline-none placeholder-muted border border-sep rounded-lg"
+                      placeholder="Apple Music"
+                      value={editing.appleMusicUrl}
+                      onChange={(e) => setEditing({ ...editing, appleMusicUrl: e.target.value })}
+                    />
+                    <input
+                      className="w-full bg-transparent text-white text-[13px] py-1.5 px-2 outline-none placeholder-muted border border-sep rounded-lg"
+                      placeholder="Spotify"
+                      value={editing.spotifyUrl}
+                      onChange={(e) => setEditing({ ...editing, spotifyUrl: e.target.value })}
+                    />
+                  </div>
                 </div>
               </div>
             </div>

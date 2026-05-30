@@ -12,10 +12,14 @@ interface Props {
   onExportAppleMusic: (setlist: Setlist) => void;
 }
 
+type ExportService = "spotify" | "appleMusic";
+
 export default function SetlistsScreen({ onBack, onNew, onEdit, onExportSpotify, onExportAppleMusic }: Props) {
   const { setlists, remove } = useSetlistStore();
   const loadIntoSW = useStopwatchStore((s) => s.load);
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
+  const [menuSetlist, setMenuSetlist] = useState<Setlist | null>(null);
+  const [confirmExport, setConfirmExport] = useState<{ setlist: Setlist; service: ExportService } | null>(null);
 
   function handleLoad(setlist: Setlist) {
     loadIntoSW(setlist);
@@ -27,6 +31,17 @@ export default function SetlistsScreen({ onBack, onNew, onEdit, onExportSpotify,
     remove(confirmDeleteId);
     setConfirmDeleteId(null);
   }
+
+  function handleConfirmExport() {
+    if (!confirmExport) return;
+    const { setlist, service } = confirmExport;
+    setConfirmExport(null);
+    if (service === "spotify") onExportSpotify(setlist);
+    else onExportAppleMusic(setlist);
+  }
+
+  const serviceLabel = (service: ExportService) =>
+    service === "spotify" ? "Spotify" : "Apple Music";
 
   return (
     <div className="flex flex-col h-full">
@@ -51,29 +66,29 @@ export default function SetlistsScreen({ onBack, onNew, onEdit, onExportSpotify,
         )}
         {setlists.map((s) => (
           <div key={s.id} className="bg-surface rounded-[14px] overflow-hidden">
-            <button
-              onClick={() => handleLoad(s)}
-              className="w-full flex items-center gap-3 px-4 py-3.5 text-left active:bg-surface2 transition-colors"
-            >
-              <div className="flex-1 min-w-0">
-                <div className="text-[17px] font-semibold truncate">{s.name || "(名称未設定)"}</div>
-                <div className="text-[13px] text-muted mt-0.5">
-                  {s.tracks.length}曲 · {formatDuration(totalDurationSec(s.tracks))}
+            <div className="flex items-stretch">
+              <button
+                onClick={() => handleLoad(s)}
+                className="flex-1 flex items-center gap-3 px-4 py-3.5 text-left active:bg-surface2 transition-colors min-w-0"
+              >
+                <div className="flex-1 min-w-0">
+                  <div className="text-[17px] font-semibold truncate">{s.name || "(名称未設定)"}</div>
+                  <div className="text-[13px] text-muted mt-0.5">
+                    {s.tracks.length}曲 · {formatDuration(totalDurationSec(s.tracks))}
+                  </div>
                 </div>
-              </div>
-              <span className="text-muted text-[14px]">▶</span>
-            </button>
+                <span className="text-muted text-[14px] shrink-0">▶</span>
+              </button>
+              <button
+                onClick={() => setMenuSetlist(s)}
+                className="px-4 border-l border-sep text-muted text-[20px] leading-none active:bg-surface2 transition-colors shrink-0"
+              >
+                ···
+              </button>
+            </div>
             <div className="flex border-t border-sep">
               <button onClick={() => onEdit(s)} className="flex-1 py-3 text-accent text-[15px] active:bg-surface2 transition-colors">
                 ✎ 編集
-              </button>
-              <div className="w-px bg-sep" />
-              <button onClick={() => onExportSpotify(s)} className="flex-1 py-3 text-[#1DB954] text-[15px] active:bg-surface2 transition-colors">
-                Spotify
-              </button>
-              <div className="w-px bg-sep" />
-              <button onClick={() => onExportAppleMusic(s)} className="flex-1 py-3 text-[#FC3C44] text-[15px] active:bg-surface2 transition-colors">
-                Apple Music
               </button>
               <div className="w-px bg-sep" />
               <button onClick={() => setConfirmDeleteId(s.id)} className="flex-1 py-3 text-danger text-[15px] active:bg-surface2 transition-colors">
@@ -84,12 +99,56 @@ export default function SetlistsScreen({ onBack, onNew, onEdit, onExportSpotify,
         ))}
       </div>
 
+      {/* Export menu */}
+      {menuSetlist && (
+        <div className="fixed inset-0 bg-black/60 flex items-end z-50 pb-[env(safe-area-inset-bottom,0px)]" onClick={() => setMenuSetlist(null)}>
+          <div className="bg-surface w-full rounded-t-[14px] overflow-hidden" onClick={(e) => e.stopPropagation()}>
+            <p className="text-center text-[13px] text-muted py-4 border-b border-sep px-4 truncate">
+              {menuSetlist.name || "(名称未設定)"}
+            </p>
+            <button
+              onClick={() => { setMenuSetlist(null); setConfirmExport({ setlist: menuSetlist, service: "spotify" }); }}
+              className="w-full py-4 text-[17px] border-b border-sep active:bg-surface2"
+            >
+              Spotifyプレイリストを作成する
+            </button>
+            <button
+              onClick={() => { setMenuSetlist(null); setConfirmExport({ setlist: menuSetlist, service: "appleMusic" }); }}
+              className="w-full py-4 text-[17px] border-b border-sep active:bg-surface2"
+            >
+              Apple Musicプレイリストを作成する
+            </button>
+            <button onClick={() => setMenuSetlist(null)} className="w-full py-4 text-accent text-[17px] font-bold active:bg-surface2">
+              キャンセル
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Export confirmation */}
+      {confirmExport && (
+        <div className="fixed inset-0 bg-black/60 flex items-end z-50 pb-[env(safe-area-inset-bottom,0px)]" onClick={() => setConfirmExport(null)}>
+          <div className="bg-surface w-full rounded-t-[14px] overflow-hidden" onClick={(e) => e.stopPropagation()}>
+            <p className="text-center text-[13px] text-muted py-4 border-b border-sep px-6">
+              「{confirmExport.setlist.name || "セットリスト"}」のプレイリストを{serviceLabel(confirmExport.service)}に作成しますか？
+            </p>
+            <button onClick={handleConfirmExport} className="w-full py-4 text-accent text-[17px] border-b border-sep active:bg-surface2">
+              作成する
+            </button>
+            <button onClick={() => setConfirmExport(null)} className="w-full py-4 text-accent text-[17px] font-bold active:bg-surface2">
+              キャンセル
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Delete confirmation */}
       {confirmDeleteId && (
         <div className="fixed inset-0 bg-black/60 flex items-end z-50 pb-[env(safe-area-inset-bottom,0px)]" onClick={() => setConfirmDeleteId(null)}>
           <div className="bg-surface w-full rounded-t-[14px] overflow-hidden" onClick={(e) => e.stopPropagation()}>
             <p className="text-center text-muted text-[13px] py-4 border-b border-sep">このセットリストを削除しますか？</p>
             <button onClick={handleDelete} className="w-full py-4 text-danger text-[17px] border-b border-sep active:bg-surface2">削除</button>
-            <button onClick={() => setConfirmDeleteId(null)} className="w-full py-4 text-accent text-[17px] font-bold mt-2 active:bg-surface2">キャンセル</button>
+            <button onClick={() => setConfirmDeleteId(null)} className="w-full py-4 text-accent text-[17px] font-bold active:bg-surface2">キャンセル</button>
           </div>
         </div>
       )}

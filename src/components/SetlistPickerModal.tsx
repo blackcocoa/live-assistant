@@ -45,7 +45,7 @@ export default function SetlistPickerModal({ onClose, onManage }: Props) {
               <button
                 key={s.id}
                 onClick={() => handleSelect(s)}
-                className="w-full flex items-center gap-3 px-4 py-4 text-left border-b border-sep active:bg-surface2 transition-colors"
+                className="w-full flex items-center gap-3 px-4 py-4 text-left border-b border-sep active:bg-primary-active transition-colors"
               >
                 <div className="flex-1 min-w-0">
                   <div className="text-[17px] font-semibold truncate">

@@ -66,13 +66,13 @@ function SortableTrackCard({ track, index, menuOpen, onUpdate, onRemove, onMenuT
       <span className="text-[13px] text-muted w-5 text-center shrink-0">{index + 1}</span>
       <div className="flex-1 flex flex-col gap-1.5">
         <input
-          className="w-full bg-surface2 rounded-lg px-3 py-2 text-[15px] text-white outline-none placeholder-muted"
+          className="w-full bg-primary rounded-lg px-3 py-2 text-[15px] text-white outline-none placeholder-muted"
           placeholder="曲名"
           value={track.name}
           onChange={(e) => onUpdate({ name: e.target.value })}
         />
         <input
-          className="w-full bg-surface2 rounded-lg px-3 py-2 text-[13px] text-white outline-none placeholder-muted"
+          className="w-full bg-primary rounded-lg px-3 py-2 text-[13px] text-white outline-none placeholder-muted"
           placeholder="メモ（任意）"
           value={track.memo ?? ""}
           onChange={(e) => onUpdate({ memo: e.target.value })}
@@ -81,7 +81,7 @@ function SortableTrackCard({ track, index, menuOpen, onUpdate, onRemove, onMenuT
           <button
             type="button"
             onClick={() => onOpenPicker("durationSeconds")}
-            className="bg-surface2 rounded-lg px-3 py-2 text-[15px] text-white tabular-nums w-24 text-left active:opacity-70"
+            className="bg-primary rounded-lg px-3 py-2 text-[15px] text-white tabular-nums w-24 text-left active:opacity-70"
           >
             {formatDuration(track.durationSeconds)}
           </button>
@@ -90,7 +90,7 @@ function SortableTrackCard({ track, index, menuOpen, onUpdate, onRemove, onMenuT
           <button
             type="button"
             onClick={() => onOpenPicker("gapSeconds")}
-            className="bg-surface2 rounded-lg px-3 py-2 text-[15px] text-white tabular-nums w-20 text-left active:opacity-70"
+            className="bg-primary rounded-lg px-3 py-2 text-[15px] text-white tabular-nums w-20 text-left active:opacity-70"
           >
             {formatDuration(track.gapSeconds ?? 60)}
           </button>
@@ -108,7 +108,7 @@ function SortableTrackCard({ track, index, menuOpen, onUpdate, onRemove, onMenuT
         <button type="button" onClick={onRemove} className="text-danger text-[22px] w-9 h-9 flex items-center justify-center">−</button>
       </div>
       {menuOpen && (
-        <div className="absolute top-2 right-12 z-50 bg-surface2 rounded-[12px] shadow-xl overflow-hidden min-w-[180px]" onClick={(e) => e.stopPropagation()}>
+        <div className="absolute top-2 right-12 z-50 bg-primary rounded-[12px] shadow-xl overflow-hidden min-w-[180px]" onClick={(e) => e.stopPropagation()}>
           <button
             type="button"
             onClick={onSavePreset}
@@ -252,7 +252,7 @@ export default function SetlistEditScreen({ initial, onDone, onCancel }: Props) 
           <button type="button" onClick={onCancel} className="flex-1 bg-surface rounded-[14px] py-3.5 text-muted text-[15px] active:opacity-75 transition-opacity">
             キャンセル
           </button>
-          <button type="button" onClick={handleSave} disabled={!name.trim()} className="flex-[2] bg-accent rounded-[14px] py-3.5 text-black text-[15px] font-bold active:opacity-75 transition-opacity disabled:bg-surface2 disabled:text-muted">
+          <button type="button" onClick={handleSave} disabled={!name.trim()} className="flex-[2] bg-accent rounded-[14px] py-3.5 text-black text-[15px] font-bold active:opacity-75 transition-opacity disabled:bg-primary disabled:text-muted">
             保存
           </button>
         </div>
@@ -287,7 +287,7 @@ export default function SetlistEditScreen({ initial, onDone, onCancel }: Props) 
               <button
                 type="button"
                 onClick={() => addTrack()}
-                className="w-full flex items-center gap-3 px-4 py-3.5 text-left active:bg-surface2 border-b border-sep"
+                className="w-full flex items-center gap-3 px-4 py-3.5 text-left active:bg-primary-active border-b border-sep"
               >
                 <span className="text-accent text-[15px]">＋</span>
                 <span className="text-[15px] text-muted">空のトラックを追加</span>
@@ -297,7 +297,7 @@ export default function SetlistEditScreen({ initial, onDone, onCancel }: Props) 
                   key={p.id}
                   type="button"
                   onClick={() => addTrack(p)}
-                  className="w-full flex items-center justify-between px-4 py-3.5 text-left active:bg-surface2 border-b border-sep last:border-0"
+                  className="w-full flex items-center justify-between px-4 py-3.5 text-left active:bg-primary-active border-b border-sep last:border-0"
                 >
                   <span className="text-[15px] text-white truncate flex-1">{p.name}</span>
                   <span className="text-[13px] text-muted ml-3 shrink-0">{formatDuration(p.durationSeconds)}</span>

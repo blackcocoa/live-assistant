@@ -40,17 +40,18 @@ function MenuOverlay({ showMenu, setShowMenu, setScreen }: {
           >
             <button
               type="button"
-              onClick={() => { setShowMenu(false); setScreen("setlists"); }}
-              className="w-full py-3.5 text-[16px] text-left px-4 border-b border-sep active:bg-surface2 transition-colors"
-            >
-              セットリスト
-            </button>
-            <button
-              type="button"
               onClick={() => { setShowMenu(false); setScreen("tracks"); }}
-              className="w-full py-3.5 text-[16px] text-left px-4 active:bg-surface2 transition-colors"
+              className="w-full py-3.5 text-[16px] text-left px-4 active:bg-primary-active transition-colors"
             >
               トラック
+            </button>
+
+            <button
+              type="button"
+              onClick={() => { setShowMenu(false); setScreen("setlists"); }}
+              className="w-full py-3.5 text-[16px] text-left px-4 border-b border-sep active:bg-primary-active transition-colors"
+            >
+              セットリスト
             </button>
           </div>
         </div>

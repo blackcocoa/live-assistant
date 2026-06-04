@@ -39,7 +39,7 @@ export default function TrackPresetPickerModal({ onSelect, onClose }: Props) {
                 <button
                   type="button"
                   onClick={() => { onSelect(p); onClose(); }}
-                  className="flex-1 flex items-center gap-3 px-4 py-3.5 text-left active:bg-surface2 transition-colors"
+                  className="flex-1 flex items-center gap-3 px-4 py-3.5 text-left active:bg-primary-active transition-colors"
                 >
                   <div className="flex-1 min-w-0">
                     <div className="text-[16px] font-medium truncate">{p.name || "(タイトルなし)"}</div>
@@ -50,7 +50,7 @@ export default function TrackPresetPickerModal({ onSelect, onClose }: Props) {
                 <button
                   type="button"
                   onClick={() => setConfirmDeleteId(p.id)}
-                  className="px-4 py-3.5 text-danger text-[15px] active:bg-surface2 transition-colors shrink-0"
+                  className="px-4 py-3.5 text-danger text-[15px] active:bg-primary-active transition-colors shrink-0"
                 >
                   削除
                 </button>
@@ -64,8 +64,8 @@ export default function TrackPresetPickerModal({ onSelect, onClose }: Props) {
         <div className="fixed inset-0 bg-black/60 flex items-end z-50 pb-[env(safe-area-inset-bottom,0px)]" onClick={() => setConfirmDeleteId(null)}>
           <div className="bg-surface w-full rounded-t-[14px] overflow-hidden" onClick={(e) => e.stopPropagation()}>
             <p className="text-center text-muted text-[13px] py-4 border-b border-sep">このプリセットを削除しますか？</p>
-            <button type="button" onClick={() => { remove(confirmDeleteId); setConfirmDeleteId(null); }} className="w-full py-4 text-danger text-[17px] border-b border-sep active:bg-surface2">削除</button>
-            <button type="button" onClick={() => setConfirmDeleteId(null)} className="w-full py-4 text-accent text-[17px] font-bold mt-2 active:bg-surface2">キャンセル</button>
+            <button type="button" onClick={() => { remove(confirmDeleteId); setConfirmDeleteId(null); }} className="w-full py-4 text-danger text-[17px] border-b border-sep active:bg-primary-active">削除</button>
+            <button type="button" onClick={() => setConfirmDeleteId(null)} className="w-full py-4 text-accent text-[17px] font-bold mt-2 active:bg-primary-active">キャンセル</button>
           </div>
         </div>
       )}

@@ -69,7 +69,7 @@ export default function SetlistsScreen({ onBack, onNew, onEdit, onExportSpotify,
             <div className="flex items-stretch">
               <button
                 onClick={() => handleLoad(s)}
-                className="flex-1 flex items-center gap-3 px-4 py-3.5 text-left active:bg-surface2 transition-colors min-w-0"
+                className="flex-1 flex items-center gap-3 px-4 py-3.5 text-left active:bg-primary-active transition-colors min-w-0"
               >
                 <div className="flex-1 min-w-0">
                   <div className="text-[17px] font-semibold truncate">{s.name || "(名称未設定)"}</div>
@@ -81,17 +81,17 @@ export default function SetlistsScreen({ onBack, onNew, onEdit, onExportSpotify,
               </button>
               <button
                 onClick={() => setMenuSetlist(s)}
-                className="px-4 border-l border-sep text-muted text-[20px] leading-none active:bg-surface2 transition-colors shrink-0"
+                className="px-4 border-l border-sep text-muted text-[20px] leading-none active:bg-primary-active transition-colors shrink-0"
               >
                 ···
               </button>
             </div>
             <div className="flex border-t border-sep">
-              <button onClick={() => onEdit(s)} className="flex-1 py-3 text-accent text-[15px] active:bg-surface2 transition-colors">
+              <button onClick={() => onEdit(s)} className="flex-1 py-3 text-accent text-[15px] active:bg-primary-active transition-colors">
                 ✎ 編集
               </button>
               <div className="w-px bg-sep" />
-              <button onClick={() => setConfirmDeleteId(s.id)} className="flex-1 py-3 text-danger text-[15px] active:bg-surface2 transition-colors">
+              <button onClick={() => setConfirmDeleteId(s.id)} className="flex-1 py-3 text-danger text-[15px] active:bg-primary-active transition-colors">
                 削除
               </button>
             </div>
@@ -108,17 +108,17 @@ export default function SetlistsScreen({ onBack, onNew, onEdit, onExportSpotify,
             </p>
             <button
               onClick={() => { setMenuSetlist(null); setConfirmExport({ setlist: menuSetlist, service: "spotify" }); }}
-              className="w-full py-4 text-[17px] border-b border-sep active:bg-surface2"
+              className="w-full py-4 text-[17px] border-b border-sep active:bg-primary-active"
             >
               Spotifyプレイリストを作成する
             </button>
             <button
               onClick={() => { setMenuSetlist(null); setConfirmExport({ setlist: menuSetlist, service: "appleMusic" }); }}
-              className="w-full py-4 text-[17px] border-b border-sep active:bg-surface2"
+              className="w-full py-4 text-[17px] border-b border-sep active:bg-primary-active"
             >
               Apple Musicプレイリストを作成する
             </button>
-            <button onClick={() => setMenuSetlist(null)} className="w-full py-4 text-accent text-[17px] font-bold active:bg-surface2">
+            <button onClick={() => setMenuSetlist(null)} className="w-full py-4 text-accent text-[17px] font-bold active:bg-primary-active">
               キャンセル
             </button>
           </div>
@@ -132,10 +132,10 @@ export default function SetlistsScreen({ onBack, onNew, onEdit, onExportSpotify,
             <p className="text-center text-[13px] text-muted py-4 border-b border-sep px-6">
               「{confirmExport.setlist.name || "セットリスト"}」のプレイリストを{serviceLabel(confirmExport.service)}に作成しますか？
             </p>
-            <button onClick={handleConfirmExport} className="w-full py-4 text-accent text-[17px] border-b border-sep active:bg-surface2">
+            <button onClick={handleConfirmExport} className="w-full py-4 text-accent text-[17px] border-b border-sep active:bg-primary-active">
               作成する
             </button>
-            <button onClick={() => setConfirmExport(null)} className="w-full py-4 text-accent text-[17px] font-bold active:bg-surface2">
+            <button onClick={() => setConfirmExport(null)} className="w-full py-4 text-accent text-[17px] font-bold active:bg-primary-active">
               キャンセル
             </button>
           </div>
@@ -147,8 +147,8 @@ export default function SetlistsScreen({ onBack, onNew, onEdit, onExportSpotify,
         <div className="fixed inset-0 bg-black/60 flex items-end z-50 pb-[env(safe-area-inset-bottom,0px)]" onClick={() => setConfirmDeleteId(null)}>
           <div className="bg-surface w-full rounded-t-[14px] overflow-hidden" onClick={(e) => e.stopPropagation()}>
             <p className="text-center text-muted text-[13px] py-4 border-b border-sep">このセットリストを削除しますか？</p>
-            <button onClick={handleDelete} className="w-full py-4 text-danger text-[17px] border-b border-sep active:bg-surface2">削除</button>
-            <button onClick={() => setConfirmDeleteId(null)} className="w-full py-4 text-accent text-[17px] font-bold active:bg-surface2">キャンセル</button>
+            <button onClick={handleDelete} className="w-full py-4 text-danger text-[17px] border-b border-sep active:bg-primary-active">削除</button>
+            <button onClick={() => setConfirmDeleteId(null)} className="w-full py-4 text-accent text-[17px] font-bold active:bg-primary-active">キャンセル</button>
           </div>
         </div>
       )}

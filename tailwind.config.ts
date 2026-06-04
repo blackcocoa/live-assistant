@@ -7,7 +7,8 @@ export default {
       colors: {
         bg: "#0d0d0d",
         surface: "#1c1c1e",
-        surface2: "#2c2c2e",
+        "primary-active": "#3a3a3c",
+        primary: "#2c2c2e",
         accent: "#ff9f0a",
         "accent-muted": "rgba(255,159,10,0.15)",
         muted: "#8e8e93",

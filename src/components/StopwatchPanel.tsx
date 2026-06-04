@@ -97,8 +97,8 @@ export default function StopwatchPanel({ onOpenSetlists, onOpenPicker }: Props) 
           disabled={!setlist?.tracks.length}
           className={`h-[52px] rounded-[14px] text-[17px] font-bold flex items-center justify-center gap-1.5 active:opacity-75 transition-opacity
             ${isRunning
-              ? "flex-1 bg-surface2 text-white disabled:text-muted"
-              : "flex-[2] bg-accent text-black disabled:bg-surface2 disabled:text-muted"
+              ? "flex-1 bg-primary text-white disabled:text-muted"
+              : "flex-[2] bg-accent text-black disabled:bg-primary disabled:text-muted"
             }`}
         >
           {isRunning ? "⏸︎ 一時停止" : totalElapsed > 0 ? "▶︎ 再開" : "▶︎ スタート"}
@@ -108,15 +108,15 @@ export default function StopwatchPanel({ onOpenSetlists, onOpenPicker }: Props) 
           disabled={!setlist || isLastTrack}
           className={`h-[52px] rounded-[14px] text-[17px] font-bold flex items-center justify-center gap-1.5 active:opacity-75 transition-opacity
             ${isRunning
-              ? "flex-[2] bg-accent text-black disabled:bg-surface2 disabled:text-muted"
-              : "flex-1 bg-surface2 text-white disabled:text-muted"
+              ? "flex-[2] bg-accent text-black disabled:bg-primary disabled:text-muted"
+              : "flex-1 bg-primary text-white disabled:text-muted"
             }`}
         >
           ⏭︎ 次へ
         </button>
         <button
           onClick={store.reset}
-          className="h-[52px] px-4 rounded-[14px] text-[17px] bg-surface2 text-white active:opacity-75 transition-opacity"
+          className="h-[52px] px-4 rounded-[14px] text-[17px] bg-primary text-white active:opacity-75 transition-opacity"
         >
           ↺
         </button>

@@ -57,11 +57,24 @@ export default function SetlistsScreen({ onBack, onNew, onEdit, onExportSpotify,
           onClick={onNew}
           className="w-full bg-surface rounded-[14px] py-3.5 mb-10 text-accent text-[15px] font-semibold active:opacity-75 transition-opacity"
         >
-          ＋ 新規
+          ＋ 新規セットリスト
         </button>
         {setlists.length === 0 && (
           <p className="text-muted text-center py-16 text-[15px]">
             セットリストがありません
+            <span className="text-[13px] block mt-3 mb-4 leading-relaxed">
+              セットリストは、ライブで演奏する曲目（トラック）をまとめたリストです。<br />
+              ロードするとストップウォッチに曲順が読み込まれ、<br />
+              本番中に「次へ」を押しながら曲の進行を管理できます。
+            </span>
+            <button
+              type="button"
+              onClick={onNew}
+              className="w-full rounded-[14px] pr-5 text-accent text-[15px] active:opacity-75 transition-opacity"
+            >
+              ＋ 新規作成
+            </button>
+
           </p>
         )}
         {setlists.map((s) => (

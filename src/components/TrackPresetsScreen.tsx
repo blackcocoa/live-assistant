@@ -45,7 +45,7 @@ export default function TrackPresetsScreen({ onBack, onImport }: Props) {
       <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4 pb-[calc(env(safe-area-inset-bottom,0px)+16px)]">
         <div className="flex gap-2 mb-10">
           <button type="button" onClick={openNew} className="flex-1 bg-surface rounded-[14px] py-3.5 text-accent text-[15px] font-semibold active:opacity-75 transition-opacity">
-            ＋ 新規作成
+            ＋ 新規トラックプリセット
           </button>
           <div className="relative">
             <button type="button" onClick={() => setShowActionMenu(true)} className="h-full px-5 bg-surface rounded-[14px] text-[#ffffff] font-bold text-[26px] leading-none active:opacity-75 transition-opacity">
@@ -76,11 +76,17 @@ export default function TrackPresetsScreen({ onBack, onImport }: Props) {
         </div>
         {presets.length === 0 && (
           <p className="text-muted text-center py-16 text-[15px]">
-            トラックプリセットがありません<br />
+            トラックプリセットがありません
+            <span className="text-[13px] block mt-3 mb-4 leading-relaxed">
+              曲名・演奏時間・配信URLをプリセットとして登録しておくと、<br />
+              セットリスト編集時に素早くトラックを追加できます。
+            </span>
+            <span className="text-[13px] block mt-3 mb-4 leading-relaxed">
+              セットリストに登録済みのトラックからプリセットを作成することもできます。
+            </span>
             <button type="button" onClick={openNew} className="flex-1 pr-5 text-accent active:opacity-75 transition-opacity">
               ＋ 新規作成
             </button>
-
           </p>
         )}
         {presets.map((p) => (

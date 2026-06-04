@@ -11,6 +11,7 @@ interface StopwatchState {
 
 interface StopwatchActions {
   load: (setlist: Setlist) => void;
+  clear: () => void;
   start: () => void;
   pause: () => void;
   lap: () => void;
@@ -33,6 +34,10 @@ export const useStopwatchStore = create<StopwatchState & StopwatchActions>(
 
       load(setlist) {
         set({ setlist, trackIndex: 0, isRunning: false, elapsedMs: 0, startTs: null });
+      },
+
+      clear() {
+        set({ setlist: null, trackIndex: 0, isRunning: false, elapsedMs: 0, startTs: null });
       },
 
       start() {

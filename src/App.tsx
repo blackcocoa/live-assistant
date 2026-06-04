@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { handleCallback, createPlaylist, getToken, startAuth } from "./utils/spotify.ts";
 import { getToken as getAppleToken, authorize as authorizeAppleMusic, createPlaylist as createApplePlaylist } from "./utils/appleMusic.ts";
 import { useSetlistStore } from "./stores/setlistStore.ts";
+import { useStopwatchStore } from "./stores/stopwatchStore.ts";
 import StopwatchPanel from "./components/StopwatchPanel.tsx";
 import TrackList from "./components/TrackList.tsx";
 import SetlistsScreen from "./components/SetlistsScreen.tsx";
@@ -20,6 +21,10 @@ function MenuOverlay({ showMenu, setShowMenu, setScreen }: {
   setShowMenu: (v: boolean) => void;
   setScreen: (s: Screen) => void;
 }) {
+  const setlist = useStopwatchStore((s) => s.setlist);
+  const clear = useStopwatchStore((s) => s.clear);
+  const [confirmClear, setConfirmClear] = useState(false);
+
   return (
     <>
       <button
@@ -40,18 +45,45 @@ function MenuOverlay({ showMenu, setShowMenu, setScreen }: {
           >
             <button
               type="button"
-              onClick={() => { setShowMenu(false); setScreen("tracks"); }}
-              className="w-full py-3.5 text-[16px] text-left px-4 active:bg-primary-active transition-colors"
+              onClick={() => { setShowMenu(false); if (setlist) setConfirmClear(true); }}
+              className={`w-full py-3.5 text-[16px] text-left px-4 border-b border-sep active:bg-primary-active transition-colors${!setlist ? " opacity-40" : ""}`}
             >
-              トラック
+              新規セッション
             </button>
-
             <button
               type="button"
               onClick={() => { setShowMenu(false); setScreen("setlists"); }}
               className="w-full py-3.5 text-[16px] text-left px-4 border-b border-sep active:bg-primary-active transition-colors"
             >
               セットリスト
+            </button>
+            <button
+              type="button"
+              onClick={() => { setShowMenu(false); setScreen("tracks"); }}
+              className="w-full py-3.5 text-[16px] text-left px-4 active:bg-primary-active transition-colors"
+            >
+              トラックプリセット
+            </button>
+          </div>
+        </div>
+      )}
+
+      {confirmClear && (
+        <div className="fixed inset-0 bg-black/60 flex items-end z-50 pb-[env(safe-area-inset-bottom,0px)]" onClick={() => setConfirmClear(false)}>
+          <div className="bg-surface w-full rounded-t-[14px] overflow-hidden" onClick={(e) => e.stopPropagation()}>
+            <p className="text-center text-muted text-[13px] py-4 border-b border-sep px-6">
+              「{setlist?.name || "セットリスト"}」をクリアしますか？<br />
+              ストップウォッチがリセットされます。
+            </p>
+            <button
+              type="button"
+              onClick={() => { clear(); setConfirmClear(false); }}
+              className="w-full py-4 text-danger text-[17px] border-b border-sep active:bg-primary-active"
+            >
+              クリア
+            </button>
+            <button type="button" onClick={() => setConfirmClear(false)} className="w-full py-4 text-accent text-[17px] font-bold active:bg-primary-active">
+              キャンセル
             </button>
           </div>
         </div>

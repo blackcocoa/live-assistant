@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import {
   useStopwatchStore,
   selectTotalElapsedMs,
@@ -15,6 +15,7 @@ export default function StopwatchPanel({ onOpenSetlists, onOpenPicker }: Props) 
   const store = useStopwatchStore();
   const { setlist, trackIndex, isRunning } = store;
 
+  const [confirmReset, setConfirmReset] = useState(false);
   const [, tick] = useReducer((x: number) => x + 1, 0);
   useEffect(() => {
     if (!isRunning) return;
@@ -46,7 +47,7 @@ export default function StopwatchPanel({ onOpenSetlists, onOpenPicker }: Props) 
         {track ? (
           <div className="flex gap-3">
             <div className="flex-1 min-w-0">
-              <div className="text-[12px] text-muted">
+              <div className="text-[12px] mb-1 text-muted">
                 {track ? `Track ${trackIndex + 1} / ${setlist!.tracks.length}` : ""}
               </div>
               <div className="text-[32px] leading-[1.1] font-bold truncate text-white -mt-[5px]">
@@ -56,11 +57,25 @@ export default function StopwatchPanel({ onOpenSetlists, onOpenPicker }: Props) 
                 <div className="text-[14px] text-muted leading-snug mt-1 line-clamp-2">{track.memo}</div>
               )}
             </div>
-            <div className="shrink-0 text-right">
-              <div className="text-[10px] text-muted uppercase tracking-wider">Total</div>
-              <span className="text-[28px] font-light tabular-nums text-muted leading-[1.1]">
-                {setTimeSec !== null ? formatDuration(setTimeSec) : ""}
-              </span>
+            <div className="shrink-0 flex gap-3 text-right">
+              <div>
+                <div className="text-[10px] text-muted uppercase tracking-wider">Current</div>
+                <span className="text-[28px] font-light tabular-nums text-muted leading-[1.1]">
+                  {formatTime(totalElapsed)}
+                </span>
+              </div>
+              <div>
+                <div className="text-[10px] text-muted uppercase tracking-wider">&nbsp;</div>
+                <span className="text-[20px] font-light tabular-nums text-muted leading-[1.1] align-middle">
+                  /
+                </span>
+              </div>
+              <div>
+                <div className="text-[10px] text-muted uppercase tracking-wider">Total</div>
+                <span className="text-[28px] font-light tabular-nums text-muted leading-[1.1]">
+                  {setTimeSec !== null ? formatDuration(setTimeSec) : ""}
+                </span>
+              </div>
             </div>
           </div>
         ) : (
@@ -76,13 +91,13 @@ export default function StopwatchPanel({ onOpenSetlists, onOpenPicker }: Props) 
       {/* Times */}
       <div className="flex gap-5 mb-6 items-end">
         <div>
-          <div className="text-[11px] text-muted uppercase tracking-wider ">経過</div>
+          <div className="text-[11px] text-muted uppercase tracking-wider ">Current</div>
           <div className="text-[60px] leading-[1.1] font-extralight tabular-nums">
             {formatTime(totalElapsed)}
           </div>
         </div>
         <div>
-          <div className="text-[11px] text-muted uppercase tracking-wider ">残り</div>
+          <div className="text-[11px] text-muted uppercase tracking-wider ">Checkpoint</div>
           <div className={`text-[60px] leading-[1.1] font-bold tabular-nums ${remaining < 0 ? "text-danger" : "text-accent"
             }`}>
             {setlist ? formatTime(remaining) : "--:--"}
@@ -115,12 +130,32 @@ export default function StopwatchPanel({ onOpenSetlists, onOpenPicker }: Props) 
           ⏭︎ 次へ
         </button>
         <button
-          onClick={store.reset}
+          onClick={() => totalElapsed > 0 ? setConfirmReset(true) : store.reset()}
           className="h-[52px] px-4 rounded-[14px] text-[17px] bg-primary text-white active:opacity-75 transition-opacity"
         >
           ↺
         </button>
       </div>
+
+      {confirmReset && (
+        <div className="fixed inset-0 bg-black/60 flex items-end z-50 pb-[env(safe-area-inset-bottom,0px)]" onClick={() => setConfirmReset(false)}>
+          <div className="bg-surface w-full rounded-t-[14px] overflow-hidden" onClick={(e) => e.stopPropagation()}>
+            <p className="text-center text-muted text-[13px] py-4 border-b border-sep px-6">
+              ストップウォッチをリセットします。<br />よろしいですか？
+            </p>
+            <button
+              type="button"
+              onClick={() => { store.reset(); setConfirmReset(false); }}
+              className="w-full py-4 text-danger text-[17px] border-b border-sep active:bg-primary-active"
+            >
+              リセット
+            </button>
+            <button type="button" onClick={() => setConfirmReset(false)} className="w-full py-4 text-accent text-[17px] active:bg-primary-active">
+              キャンセル
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

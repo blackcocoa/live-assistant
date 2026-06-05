@@ -40,7 +40,7 @@ function MenuOverlay({ showMenu, setShowMenu, setScreen }: {
       {showMenu && (
         <div className="fixed inset-0 z-50" onClick={() => setShowMenu(false)}>
           <div
-            className="absolute top-[calc(env(safe-area-inset-top,0px)+48px)] right-4 bg-surface rounded-[14px] overflow-hidden shadow-xl min-w-[180px]"
+            className="absolute top-[calc(env(safe-area-inset-top,0px)+48px)] right-4 bg-surface rounded-[14px] overflow-hidden shadow-xl min-w-[180px] w-[300px]"
             onClick={(e) => e.stopPropagation()}
           >
             <button

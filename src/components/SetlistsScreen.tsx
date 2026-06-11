@@ -4,6 +4,15 @@ import { useStopwatchStore } from "../stores/stopwatchStore";
 import { formatDuration, totalDurationSec } from "../utils";
 import type { Setlist } from "../types";
 
+function setlistToText(setlist: Setlist): string {
+  const header = setlist.name || "セットリスト";
+  const lines = setlist.tracks.map(
+    (t, i) => `${i + 1}. ${t.name}  ${formatDuration(t.durationSeconds)}`
+  );
+  const total = `合計 ${formatDuration(totalDurationSec(setlist.tracks))}`;
+  return [header, "", ...lines, "", total].join("\n");
+}
+
 interface Props {
   onBack: () => void;
   onNew: () => void;
@@ -20,6 +29,14 @@ export default function SetlistsScreen({ onBack, onNew, onEdit, onExportSpotify,
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const [menuSetlist, setMenuSetlist] = useState<Setlist | null>(null);
   const [confirmExport, setConfirmExport] = useState<{ setlist: Setlist; service: ExportService } | null>(null);
+  const [copyToast, setCopyToast] = useState<string | null>(null);
+
+  async function handleCopyText(setlist: Setlist) {
+    setMenuSetlist(null);
+    await navigator.clipboard.writeText(setlistToText(setlist));
+    setCopyToast(setlist.name || "セットリスト");
+    setTimeout(() => setCopyToast(null), 2500);
+  }
 
   function handleLoad(setlist: Setlist) {
     loadIntoSW(setlist);
@@ -131,6 +148,12 @@ export default function SetlistsScreen({ onBack, onNew, onEdit, onExportSpotify,
             >
               Apple Musicプレイリストを作成する
             </button>
+            <button
+              onClick={() => handleCopyText(menuSetlist)}
+              className="w-full py-4 text-[17px] border-b border-sep active:bg-primary-active"
+            >
+              セットリストをテキストでコピー
+            </button>
             <button onClick={() => setMenuSetlist(null)} className="w-full py-4 text-accent text-[17px] font-bold active:bg-primary-active">
               キャンセル
             </button>
@@ -152,6 +175,13 @@ export default function SetlistsScreen({ onBack, onNew, onEdit, onExportSpotify,
               キャンセル
             </button>
           </div>
+        </div>
+      )}
+
+      {/* Copy toast */}
+      {copyToast && (
+        <div className="fixed bottom-[calc(env(safe-area-inset-bottom,0px)+24px)] left-1/2 -translate-x-1/2 bg-black/80 text-white text-[14px] px-5 py-2.5 rounded-full pointer-events-none z-50 whitespace-nowrap">
+          テキストをコピーしました
         </div>
       )}
 

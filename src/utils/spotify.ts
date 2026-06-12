@@ -125,7 +125,7 @@ export async function getArtistTracks(
 ): Promise<{ name: string; durationSeconds: number; spotifyUrl: string }[]> {
   onProgress("アルバム一覧を取得中...");
   const albumIds: string[] = [];
-  let path: string | null = `/artists/${artistId}/albums?include_groups=album,single&limit=50`;
+  let path: string | null = `/artists/${artistId}/albums?include_groups=album,single&limit=20`;
   while (path) {
     const data = await apiFetch(token, path);
     for (const a of data.items) albumIds.push(a.id);

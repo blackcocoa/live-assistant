@@ -125,7 +125,7 @@ export async function getArtistTracks(
 ): Promise<{ name: string; durationSeconds: number; spotifyUrl: string }[]> {
   onProgress("アルバム一覧を取得中...");
   const albumIds: string[] = [];
-  let path: string | null = `/artists/${artistId}/albums?include_groups=album,single`;
+  let path: string | null = `/artists/${artistId}/albums?include_groups=album,single&market=from_token`;
   while (path) {
     const data = await apiFetch(token, path);
     for (const a of data.items) albumIds.push(a.id);
@@ -134,19 +134,19 @@ export async function getArtistTracks(
 
   const seen = new Set<string>();
   const tracks: { name: string; durationSeconds: number; spotifyUrl: string }[] = [];
-  for (let i = 0; i < albumIds.length; i += 20) {
-    onProgress(`楽曲を取得中... (${i + 1}〜${Math.min(i + 20, albumIds.length)} / ${albumIds.length}アルバム)`);
-    const ids = albumIds.slice(i, i + 20).join(",");
-    let data: { albums?: ({ tracks?: { items?: unknown[] } } | null)[] };
-    try {
-      data = await apiFetch(token, `/albums?ids=${ids}`);
-    } catch (e) {
-      if (e instanceof Error && e.message.startsWith("token_expired")) throw e;
-      continue;
-    }
-    for (const album of data.albums ?? []) {
-      if (!album) continue;
-      for (const track of (album.tracks?.items ?? []) as { name: string; duration_ms: number; external_urls?: { spotify?: string } }[]) {
+  for (let i = 0; i < albumIds.length; i++) {
+    onProgress(`楽曲を取得中... (${i + 1} / ${albumIds.length}アルバム)`);
+    let tracksPath: string | null = `/albums/${albumIds[i]}/tracks?limit=50`;
+    while (tracksPath) {
+      let data: { items: { name: string; duration_ms: number; external_urls?: { spotify?: string } }[]; next: string | null };
+      try {
+        data = await apiFetch(token, tracksPath);
+      } catch (e) {
+        if (e instanceof Error && e.message.startsWith("token_expired")) throw e;
+        break;
+      }
+      for (const track of data.items ?? []) {
+        if (!track.name) continue;
         const key = track.name.toLowerCase();
         if (seen.has(key)) continue;
         seen.add(key);
@@ -156,6 +156,7 @@ export async function getArtistTracks(
           spotifyUrl: track.external_urls?.spotify ?? "",
         });
       }
+      tracksPath = data.next ? (data.next as string).replace("https://api.spotify.com/v1", "") : null;
     }
   }
   return tracks;

@@ -137,16 +137,23 @@ export async function getArtistTracks(
   for (let i = 0; i < albumIds.length; i += 20) {
     onProgress(`楽曲を取得中... (${i + 1}〜${Math.min(i + 20, albumIds.length)} / ${albumIds.length}アルバム)`);
     const ids = albumIds.slice(i, i + 20).join(",");
-    const data = await apiFetch(token, `/albums?ids=${ids}`);
+    let data: { albums?: ({ tracks?: { items?: unknown[] } } | null)[] };
+    try {
+      data = await apiFetch(token, `/albums?ids=${ids}`);
+    } catch (e) {
+      if (e instanceof Error && e.message.startsWith("token_expired")) throw e;
+      continue;
+    }
     for (const album of data.albums ?? []) {
-      for (const track of album.tracks?.items ?? []) {
-        const key = (track.name as string).toLowerCase();
+      if (!album) continue;
+      for (const track of (album.tracks?.items ?? []) as { name: string; duration_ms: number; external_urls?: { spotify?: string } }[]) {
+        const key = track.name.toLowerCase();
         if (seen.has(key)) continue;
         seen.add(key);
         tracks.push({
-          name: track.name as string,
-          durationSeconds: Math.round((track.duration_ms as number) / 1000),
-          spotifyUrl: (track.external_urls?.spotify as string) ?? "",
+          name: track.name,
+          durationSeconds: Math.round(track.duration_ms / 1000),
+          spotifyUrl: track.external_urls?.spotify ?? "",
         });
       }
     }

@@ -108,10 +108,14 @@ async function apiFetch(token: string, path: string, options?: RequestInit) {
 export async function searchArtists(
   token: string,
   query: string,
-): Promise<{ id: string; name: string }[]> {
+): Promise<{ id: string; name: string; imageUrl?: string }[]> {
   const params = new URLSearchParams({ q: query, type: "artist", limit: "10" });
   const data = await apiFetch(token, `/search?${params}`);
-  return (data.artists?.items ?? []).map((a: { id: string; name: string }) => ({ id: a.id, name: a.name }));
+  return (data.artists?.items ?? []).map((a: { id: string; name: string; images?: { url: string }[] }) => ({
+    id: a.id,
+    name: a.name,
+    imageUrl: a.images?.at(-1)?.url,
+  }));
 }
 
 export async function getArtistTracks(

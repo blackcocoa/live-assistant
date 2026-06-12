@@ -11,9 +11,9 @@ export default function SpotifyArtistImportModal({ onClose }: Props) {
   const { importPresets } = useTrackPresetStore();
 
   const [query, setQuery] = useState("");
-  const [suggestions, setSuggestions] = useState<{ id: string; name: string }[]>([]);
+  const [suggestions, setSuggestions] = useState<{ id: string; name: string; imageUrl?: string }[]>([]);
   const [isSearching, setIsSearching] = useState(false);
-  const [selectedArtist, setSelectedArtist] = useState<{ id: string; name: string } | null>(null);
+  const [selectedArtist, setSelectedArtist] = useState<{ id: string; name: string; imageUrl?: string } | null>(null);
   const [isFetching, setIsFetching] = useState(false);
   const [progress, setProgress] = useState("");
   const [fetchedTracks, setFetchedTracks] = useState<{ name: string; durationSeconds: number; spotifyUrl: string }[] | null>(null);
@@ -38,7 +38,7 @@ export default function SpotifyArtistImportModal({ onClose }: Props) {
     return () => clearTimeout(t);
   }, [query, token, selectedArtist]);
 
-  function selectArtist(artist: { id: string; name: string }) {
+  function selectArtist(artist: { id: string; name: string; imageUrl?: string }) {
     setSelectedArtist(artist);
     setQuery(artist.name);
     setSuggestions([]);
@@ -70,7 +70,7 @@ export default function SpotifyArtistImportModal({ onClose }: Props) {
   if (!token) {
     return (
       <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-4" onClick={onClose}>
-        <div className="bg-surface w-full rounded-[20px] overflow-hidden" onClick={(e) => e.stopPropagation()}>
+        <div className="bg-surface w-full max-w-[640px] rounded-[20px] overflow-hidden" onClick={(e) => e.stopPropagation()}>
           <div className="flex items-center justify-between px-4 pt-4 pb-3 border-b border-sep">
             <button type="button" onClick={onClose} className="text-muted text-[15px]">キャンセル</button>
             <h2 className="text-[17px] font-semibold">Spotifyから読み込む</h2>
@@ -94,7 +94,7 @@ export default function SpotifyArtistImportModal({ onClose }: Props) {
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-4" onClick={onClose}>
       <div
-        className="bg-surface w-full rounded-[20px] overflow-hidden flex flex-col"
+        className="bg-surface w-full max-w-[640px] rounded-[20px] overflow-hidden flex flex-col"
         style={{ maxHeight: "80vh" }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -112,39 +112,42 @@ export default function SpotifyArtistImportModal({ onClose }: Props) {
         </div>
 
         <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
-          <div className="relative">
-            <div className="bg-primary rounded-[12px] flex items-center px-4 min-h-[48px]">
-              <input
-                ref={inputRef}
-                autoFocus
-                className="flex-1 bg-transparent text-white text-[15px] py-3 outline-none placeholder-muted"
-                placeholder="アーティスト名"
-                value={query}
-                onChange={(e) => {
-                  setQuery(e.target.value);
-                  if (selectedArtist) {
-                    setSelectedArtist(null);
-                    setFetchedTracks(null);
-                  }
-                }}
-              />
-              {isSearching && <span className="text-muted text-[13px] shrink-0">検索中...</span>}
-            </div>
-            {suggestions.length > 0 && (
-              <div className="absolute top-full left-0 right-0 mt-1 bg-surface rounded-[12px] overflow-hidden shadow-xl z-10 border border-sep">
-                {suggestions.map((s) => (
-                  <button
-                    key={s.id}
-                    type="button"
-                    className="w-full px-4 py-3 text-[15px] text-left border-b border-sep last:border-0 active:bg-primary-active transition-colors"
-                    onClick={() => selectArtist(s)}
-                  >
-                    {s.name}
-                  </button>
-                ))}
-              </div>
-            )}
+          <div className="bg-primary rounded-[12px] flex items-center px-4 min-h-[48px]">
+            <input
+              ref={inputRef}
+              autoFocus
+              className="flex-1 bg-transparent text-white text-[15px] py-3 outline-none placeholder-muted"
+              placeholder="アーティスト名"
+              value={query}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                if (selectedArtist) {
+                  setSelectedArtist(null);
+                  setFetchedTracks(null);
+                }
+              }}
+            />
+            {isSearching && <span className="text-muted text-[13px] shrink-0">検索中...</span>}
           </div>
+
+          {suggestions.length > 0 && (
+            <div className="bg-surface rounded-[12px] overflow-hidden border border-sep">
+              {suggestions.map((s) => (
+                <button
+                  key={s.id}
+                  type="button"
+                  className="w-full px-4 py-2.5 text-[15px] text-left border-b border-sep last:border-0 active:bg-primary-active transition-colors flex items-center gap-3"
+                  onClick={() => selectArtist(s)}
+                >
+                  {s.imageUrl
+                    ? <img src={s.imageUrl} alt="" className="w-10 h-10 rounded object-cover shrink-0" />
+                    : <div className="w-10 h-10 rounded bg-primary shrink-0" />
+                  }
+                  <span>{s.name}</span>
+                </button>
+              ))}
+            </div>
+          )}
 
           {selectedArtist && !isFetching && !fetchedTracks && (
             <button

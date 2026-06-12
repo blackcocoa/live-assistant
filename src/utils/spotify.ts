@@ -22,8 +22,10 @@ async function generateChallenge(verifier: string): Promise<string> {
 export async function startAuth(pendingSetlistId: string): Promise<void> {
   const verifier = generateVerifier();
   const challenge = await generateChallenge(verifier);
+  const state = generateVerifier();
   sessionStorage.setItem("spotify_verifier", verifier);
   sessionStorage.setItem("spotify_pending_setlist", pendingSetlistId);
+  sessionStorage.setItem("spotify_state", state);
 
   const params = new URLSearchParams({
     client_id: CLIENT_ID,
@@ -32,6 +34,7 @@ export async function startAuth(pendingSetlistId: string): Promise<void> {
     scope: SCOPES,
     code_challenge_method: "S256",
     code_challenge: challenge,
+    state,
     show_dialog: "true",
   });
   window.location.href = `https://accounts.spotify.com/authorize?${params}`;
@@ -44,11 +47,14 @@ export async function handleCallback(): Promise<{ token: string; pendingSetlistI
 
   const verifier = sessionStorage.getItem("spotify_verifier");
   const pendingSetlistId = sessionStorage.getItem("spotify_pending_setlist") ?? "";
+  const storedState = sessionStorage.getItem("spotify_state");
   if (!verifier) return null;
+  if (!storedState || params.get("state") !== storedState) return null;
 
   history.replaceState({}, "", window.location.pathname);
   sessionStorage.removeItem("spotify_verifier");
   sessionStorage.removeItem("spotify_pending_setlist");
+  sessionStorage.removeItem("spotify_state");
 
   const res = await fetch("https://accounts.spotify.com/api/token", {
     method: "POST",

@@ -27,6 +27,7 @@ jobs:
       - run: deno task build
         env:
           VITE_APPLE_DEVELOPER_TOKEN: ${{ secrets.VITE_APPLE_DEVELOPER_TOKEN }}
+          VITE_SPOTIFY_CLIENT_ID: ${{ secrets.VITE_SPOTIFY_CLIENT_ID }}
       - uses: actions/configure-pages@v4
       - uses: actions/upload-pages-artifact@v3
         with:

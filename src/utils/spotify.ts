@@ -1,4 +1,4 @@
-const CLIENT_ID = "3345641453bf49bdaaa8d258b723eff4";
+const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID as string;
 const SCOPES = "playlist-modify-public playlist-modify-private";
 
 function redirectUri(): string {

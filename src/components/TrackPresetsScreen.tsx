@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useTrackPresetStore } from "../stores/trackPresetStore";
 import { formatDuration, parseDuration } from "../utils";
 import type { TrackPreset } from "../types";
+import SpotifyArtistImportModal from "./SpotifyArtistImportModal.tsx";
 
 interface Props {
   onBack: () => void;
@@ -14,6 +15,7 @@ export default function TrackPresetsScreen({ onBack, onImport }: Props) {
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const [confirmClearAll, setConfirmClearAll] = useState(false);
   const [showActionMenu, setShowActionMenu] = useState(false);
+  const [showArtistImport, setShowArtistImport] = useState(false);
 
   function openNew() {
     setEditing({ id: null, name: "", duration: "3:00", appleMusicUrl: "", spotifyUrl: "" });
@@ -55,6 +57,13 @@ export default function TrackPresetsScreen({ onBack, onImport }: Props) {
               <>
                 <div className="fixed inset-0 z-40" onClick={() => setShowActionMenu(false)} />
                 <div className="absolute top-full right-0 mt-1 bg-surface rounded-[12px] overflow-hidden shadow-xl min-w-[160px] z-50">
+                  <button
+                    type="button"
+                    onClick={() => { setShowActionMenu(false); setShowArtistImport(true); }}
+                    className="w-full py-3.5 text-[15px] text-left px-4 border-b border-sep active:bg-primary-active transition-colors"
+                  >
+                    Spotifyから読み込む
+                  </button>
                   <button
                     type="button"
                     onClick={() => { setShowActionMenu(false); onImport(); }}
@@ -170,6 +179,10 @@ export default function TrackPresetsScreen({ onBack, onImport }: Props) {
             <button type="button" onClick={() => setConfirmClearAll(false)} className="w-full py-4 text-accent text-[17px] font-bold mt-2 active:bg-primary-active">キャンセル</button>
           </div>
         </div>
+      )}
+
+      {showArtistImport && (
+        <SpotifyArtistImportModal onClose={() => setShowArtistImport(false)} />
       )}
 
       {confirmDeleteId && (

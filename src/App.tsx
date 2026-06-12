@@ -105,6 +105,10 @@ export default function App() {
     handleCallback().then(async (result) => {
       if (!result) return;
       const { token, pendingSetlistId } = result;
+      if (pendingSetlistId === "__artist_import__") {
+        setScreen("tracks");
+        return;
+      }
       const setlist = setlists.find((s) => s.id === pendingSetlistId);
       if (!setlist) return;
       try {

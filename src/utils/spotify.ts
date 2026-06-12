@@ -105,6 +105,51 @@ async function apiFetch(token: string, path: string, options?: RequestInit) {
   return data;
 }
 
+export async function searchArtists(
+  token: string,
+  query: string,
+): Promise<{ id: string; name: string }[]> {
+  const params = new URLSearchParams({ q: query, type: "artist", limit: "10" });
+  const data = await apiFetch(token, `/search?${params}`);
+  return (data.artists?.items ?? []).map((a: { id: string; name: string }) => ({ id: a.id, name: a.name }));
+}
+
+export async function getArtistTracks(
+  token: string,
+  artistId: string,
+  onProgress: (msg: string) => void,
+): Promise<{ name: string; durationSeconds: number; spotifyUrl: string }[]> {
+  onProgress("アルバム一覧を取得中...");
+  const albumIds: string[] = [];
+  let path: string | null = `/artists/${artistId}/albums?include_groups=album,single&limit=50`;
+  while (path) {
+    const data = await apiFetch(token, path);
+    for (const a of data.items) albumIds.push(a.id);
+    path = data.next ? (data.next as string).replace("https://api.spotify.com/v1", "") : null;
+  }
+
+  const seen = new Set<string>();
+  const tracks: { name: string; durationSeconds: number; spotifyUrl: string }[] = [];
+  for (let i = 0; i < albumIds.length; i += 20) {
+    onProgress(`楽曲を取得中... (${i + 1}〜${Math.min(i + 20, albumIds.length)} / ${albumIds.length}アルバム)`);
+    const ids = albumIds.slice(i, i + 20).join(",");
+    const data = await apiFetch(token, `/albums?ids=${ids}`);
+    for (const album of data.albums ?? []) {
+      for (const track of album.tracks?.items ?? []) {
+        const key = (track.name as string).toLowerCase();
+        if (seen.has(key)) continue;
+        seen.add(key);
+        tracks.push({
+          name: track.name as string,
+          durationSeconds: Math.round((track.duration_ms as number) / 1000),
+          spotifyUrl: (track.external_urls?.spotify as string) ?? "",
+        });
+      }
+    }
+  }
+  return tracks;
+}
+
 export async function createPlaylist(
   token: string,
   name: string,

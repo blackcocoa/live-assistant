@@ -100,7 +100,7 @@ async function apiFetch(token: string, path: string, options?: RequestInit) {
   }
   const data = await res.json();
   if (!res.ok) {
-    throw new Error(data?.error?.message ?? `HTTP ${res.status}`);
+    throw new Error(`${data?.error?.message ?? `HTTP ${res.status}`} [${path.split("?")[0]}]`);
   }
   return data;
 }

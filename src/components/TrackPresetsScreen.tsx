@@ -86,15 +86,19 @@ export default function TrackPresetsScreen({ onBack, onImport }: Props) {
         {presets.length === 0 && (
           <p className="text-muted text-center py-16 text-[15px]">
             トラックプリセットがありません
-            <span className="text-[13px] block mt-3 mb-4 leading-relaxed">
+            <span className="text-[13px] block mt-3 mb-2 leading-relaxed">
               曲名・演奏時間・配信URLをプリセットとして登録しておくと、<br />
               セットリスト編集時に素早くトラックを追加できます。
             </span>
-            <span className="text-[13px] block mt-3 mb-4 leading-relaxed">
-              セットリストに登録済みのトラックからプリセットを作成することもできます。
-            </span>
             <button type="button" onClick={openNew} className="flex-1 pr-5 text-accent active:opacity-75 transition-opacity">
               ＋ 新規作成
+            </button>
+            <span className="text-[13px] block mt-8 mb-2 leading-relaxed">
+              セットリストに登録済みのトラックからプリセットを作成できるほか、<br />
+              Spotifyに登録されている楽曲を丸ごとインポートすることもできます。
+            </span>
+            <button type="button" onClick={() => setShowArtistImport(true)} className="text-accent active:opacity-75 transition-opacity">
+              Spotifyからインポート
             </button>
           </p>
         )}
